@@ -7,6 +7,10 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/spatie/packagist-api.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/packagist-api)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/packagist-api.svg?style=flat-square)](https://packagist.org/packages/spatie/packagist-api)
 
+This package communicates with the Packagist Api and makes it easy to search and receive packages information.
+It has 4 simple methods that you can call with one line of code:  `getVendorPackages(string $vendor)`, `getPackageByName(string $vendor, string $package)`, 
+`searchPackagesByTag(string $tag)` and `searchPackagesByName(string $name)`.
+
 ## Installation
 
 You can install the package via composer:
@@ -18,8 +22,21 @@ composer require spatie/packagist-api
 ## Usage
 
 ``` php
-$packagist = new Spatie\Packagist();
-echo $packagist->echoPhrase('Hello, Spatie!');
+$client = new GuzzleHttp\Client();
+$packagistApi = new PackagistApi($client);
+
+// get a list of vendor packages where vendor name is 'spatie'
+$packagistApi->getVendorPackages('spatie');
+
+// get a package where vendor name is 'spatie' and package name 'valuestore'
+$packagistApi->getPackageByName('spatie', 'valuestore');
+
+// search for packages where tag is '1.0.0'
+$packagistApi->searchPackagesByTag('1.0.0');
+
+// search for a package with a name 'valuestore'
+$packagistApi->searchPackagesByName('valuestore');
+
 ```
 
 ## Changelog
