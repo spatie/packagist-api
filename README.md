@@ -1,4 +1,4 @@
-# Packagist-API
+# Fetch package info from Packagist
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/packagist-api.svg?style=flat-square)](https://packagist.org/packages/spatie/packagist-api)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
@@ -7,9 +7,7 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/spatie/packagist-api.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/packagist-api)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/packagist-api.svg?style=flat-square)](https://packagist.org/packages/spatie/packagist-api)
 
-This package communicates with the Packagist Api and makes it easy to search and receive packages information.
-It has 4 simple methods that you can call with one line of code:  `getVendorPackages(string $vendor)`, `getPackageByName(string $vendor, string $package)`, 
-`searchPackagesByTag(string $tag)` and `searchPackagesByName(string $name)`.
+This package makes it easy to search and fetch package info from Packagist.
 
 ## Installation
 
@@ -21,37 +19,20 @@ composer require spatie/packagist-api
 
 ## Usage
 
-### Make a new PackagistApi instance.
-First of all you must make a new instance of PackagistApi. 
-Therefore you will also need an instance of GuzzelHttp Client.
-
 ``` php
 $client = new GuzzleHttp\Client();
-$packagistApi = new PackagistApi($client);
+
+$packagist = new Spatie\Packagist\Packagist($client);
 ```
 
-### Get a list of packages 
+### Get all packages by a specific vendor
 ``` php
-// get a list of vendor packages where vendor name is 'spatie'
-$packagistApi->getVendorPackages('spatie');
+$packagist->getVendorPackages('spatie');
 ```
 
-### Get a specific package
+### Find a package by it's name
 ``` php
-// get a package where vendor name is 'spatie' and package name 'valuestore'
-$packagistApi->getPackageByName('spatie', 'valuestore');
-```
-
-### Search packages by tag
-``` php
-// search for packages where tag is '1.0.0'
-$packagistApi->searchPackagesByTag('1.0.0');
-```
-
-### Search packages by name
-``` php
-// search for a package with a name 'valuestore'
-$packagistApi->searchPackagesByName('valuestore');
+$packagistApi->getPackageByName('spatie/laravel-backup');
 ```
 
 ## Changelog
@@ -74,6 +55,7 @@ If you discover any security related issues, please email freek@spatie.be instea
 
 ## Credits
 
+- [Freek Van der Herten](https://github.com/freekmurze)
 - [Jolita Grazyte](https://github.com/JolitaGrazyte)
 - [All Contributors](../../contributors)
 
