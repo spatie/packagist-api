@@ -44,13 +44,18 @@ class Packagist
     }
 
     /**
+     * @param $vendor
      * @param string $packageName
      *
      * @return array
      */
-    public function findPackageByName($packageName)
+    public function findPackageByName($vendor, $packageName = '')
     {
-        return $this->makeRequest("/packages/{$packageName}.json");
+        if ($packageName === '') {
+            list($vendor, $packageName) = explode('/', $vendor);
+        }
+
+        return $this->makeRequest("/packages/{$vendor}/{$packageName}.json");
     }
 
     /**

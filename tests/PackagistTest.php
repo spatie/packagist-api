@@ -7,7 +7,7 @@ use Spatie\Packagist\Packagist;
 
 class PackagistTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var PackagistApi */
+    /** @var \Spatie\Packagist\Packagist */
     protected $packagist;
 
     public function setUp()
@@ -38,12 +38,25 @@ class PackagistTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function it_can_find_a_package_by_its_name()
     {
-        $packageName = 'spatie/laravel-medialibrary';
+        $vendor = 'spatie';
+        $packageName = 'menu';
 
-        $result = $this->packagist->findPackageByName('spatie/laravel-medialibrary');
+        $result = $this->packagist->findPackageByName($vendor, $packageName);
 
         $this->assertArrayHasKey('package', $result);
 
-        $this->assertSame($packageName, $result['package']['name']);
+        $this->assertSame("{$vendor}/{$packageName}", $result['package']['name']);
+    }
+
+    /** @test */
+    public function it_can_find_a_package_by_its_fully_qualified_name()
+    {
+        $fullPackageName = 'spatie/menu';
+
+        $result = $this->packagist->findPackageByName($fullPackageName);
+
+        $this->assertArrayHasKey('package', $result);
+
+        $this->assertSame($fullPackageName, $result['package']['name']);
     }
 }
