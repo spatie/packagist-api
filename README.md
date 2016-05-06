@@ -21,22 +21,37 @@ composer require spatie/packagist-api
 
 ## Usage
 
+### Make a new PackagistApi instance.
+First of all you must make a new instance of PackagistApi. 
+Therefore you will also need an instance of GuzzelHttp Client.
+
 ``` php
 $client = new GuzzleHttp\Client();
 $packagistApi = new PackagistApi($client);
+```
 
+### Get a list of packages 
+``` php
 // get a list of vendor packages where vendor name is 'spatie'
 $packagistApi->getVendorPackages('spatie');
+```
 
+### Get a specific package
+``` php
 // get a package where vendor name is 'spatie' and package name 'valuestore'
 $packagistApi->getPackageByName('spatie', 'valuestore');
+```
 
+### Search packages by tag
+``` php
 // search for packages where tag is '1.0.0'
 $packagistApi->searchPackagesByTag('1.0.0');
+```
 
+### Search packages by name
+``` php
 // search for a package with a name 'valuestore'
 $packagistApi->searchPackagesByName('valuestore');
-
 ```
 
 ## Changelog
