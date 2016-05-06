@@ -1,34 +1,37 @@
 {
-    "name": "spatie/:package_name",
-    "description": ":package_description",
+    "name": "spatie/packagist-api",
+    "description": "A package that communicates with the packagist api. ",
     "keywords": [
         "spatie",
-        ":package_name"
+        "packagist-api"
     ],
-    "homepage": "https://github.com/spatie/:package_name",
+    "homepage": "https://github.com/spatie/packagist-api",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": ":author_email",
+            "name": "Jolita Grazyte",
+            "email": "jolita@spatie.be",
             "homepage": "https://spatie.be",
             "role": "Developer"
         }
     ],
     "require": {
-        "php" : "^7.0"
+        "php" : "^7.0",
+        "illuminate/support": "5.*",
+        "guzzlehttp/guzzle":"^6.1",
+        "mockery/mockery": "^0.9.4"
     },
     "require-dev": {
         "phpunit/phpunit": "5.*"
     },
     "autoload": {
         "psr-4": {
-            "Spatie\\Skeleton\\": "src"
+            "Spatie\\PackagistApi\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Spatie\\Skeleton\\Test\\": "tests"
+            "Spatie\\PackagistApi\\Test\\": "tests"
         }
     },
     "scripts": {

@@ -1,13 +1,13 @@
 <?php
 
-namespace Spatie\Skeleton;
+namespace Spatie\PackagistApi;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
  * @see \Spatie\Skeleton\SkeletonClass
  */
-class SkeletonFacade extends Facade
+class PackagistApiFacade extends Facade
 {
     /**
      * Get the registered name of the component.

@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\Skeleton;
+namespace Spatie\PackagistApi;
 
 use Illuminate\Support\ServiceProvider;
 
-class SkeletonServiceProvider extends ServiceProvider
+class PackagistApiServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
