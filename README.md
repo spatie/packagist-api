@@ -7,7 +7,7 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/spatie/packagist-api.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/packagist-api)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/packagist-api.svg?style=flat-square)](https://packagist.org/packages/spatie/packagist-api)
 
-This package makes it easy to search and fetch package info from Packagist.
+This package makes it easy to search and fetch package info using [the Packagist API](https://packagist.org/apidoc).
 
 ## Installation
 
