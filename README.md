@@ -19,6 +19,8 @@ composer require spatie/packagist-api
 
 ## Usage
 
+You must pass a Guzzle client to the constructor of `Spatie\Packagist\Packagist`.
+
 ``` php
 $client = new GuzzleHttp\Client();
 
