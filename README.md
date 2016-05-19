@@ -22,9 +22,9 @@ composer require spatie/packagist-api
 You must pass a Guzzle client to the constructor of `Spatie\Packagist\Packagist`.
 
 ``` php
-$client = new GuzzleHttp\Client();
+$client = new \GuzzleHttp\Client();
 
-$packagist = new Spatie\Packagist\Packagist($client);
+$packagist = new \Spatie\Packagist\Packagist($client);
 ```
 
 ### Get all packages by a specific vendor
