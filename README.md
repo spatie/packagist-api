@@ -34,7 +34,7 @@ $packagist->getVendorPackages('spatie');
 
 ### Find a package by it's name
 ``` php
-$packagist->getPackageByName('spatie/laravel-backup');
+$packagist->findPackageByName('spatie/laravel-backup');
 ```
 
 ## Changelog
