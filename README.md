@@ -37,7 +37,7 @@ $packagist = new \Spatie\Packagist\Packagist($client);
 
 ### Get all packages by a specific vendor
 ``` php
-$packagist->getVendorPackages('spatie');
+$packagist->getPackagesByVendor('spatie');
 ```
 
 ### Find a package by it's name
