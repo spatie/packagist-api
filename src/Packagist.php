@@ -32,7 +32,7 @@ class Packagist
     public function getPackagesByVendor($vendor)
     {
         if (empty($vendor)) {
-            throw new Exception("You must pass a non empty value");
+            throw new Exception('You must pass a non empty value');
         }
 
         return $this->makeRequest('/packages/list.json', compact('vendor'));
