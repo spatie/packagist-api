@@ -1,6 +1,10 @@
 # Changelog
 
-All Notable changes to `packagist-api` will be documented in this file
+All notable changes to `packagist-api` will be documented in this file
+
+## 1.0.1 - 2017-06-13
+
+- throw an exception when passing an empty value to `getPackagesByVendor`
 
 ## 1.0.0 - 2016-05-14
 
