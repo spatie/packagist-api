@@ -2,6 +2,7 @@
 
 namespace Spatie\Packagist\Test;
 
+use Exception;
 use GuzzleHttp\Client;
 use Spatie\Packagist\Packagist;
 
@@ -33,6 +34,14 @@ class PackagistTest extends \PHPUnit_Framework_TestCase
         foreach ($result['packageNames'] as $packageName) {
             $this->assertStringStartsWith($vendorName, $packageName);
         }
+    }
+
+    /** @test */
+    public function it_will_throw_an_exception_if_a_vendor_is_not_specified()
+    {
+        $this->setExpectedException(Exception::class);
+
+        $this->packagist->getPackagesByVendor('');
     }
 
     /** @test */
