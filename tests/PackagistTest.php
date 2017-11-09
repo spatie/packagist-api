@@ -4,9 +4,10 @@ namespace Spatie\Packagist\Test;
 
 use Exception;
 use GuzzleHttp\Client;
+use PHPUnit\Framework\TestCase;
 use Spatie\Packagist\Packagist;
 
-class PackagistTest extends \PHPUnit_Framework_TestCase
+class PackagistTest extends TestCase
 {
     /** @var \Spatie\Packagist\Packagist */
     protected $packagist;
