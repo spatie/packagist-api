@@ -25,6 +25,20 @@ class Packagist
     }
 
     /**
+     * @param string $type
+     *
+     * @return array
+     */
+    public function getPackagesByType($type)
+    {
+        if (empty($type)) {
+            throw new Exception('You must pass a non-empty value');
+        }
+
+        return $this->makeRequest('/packages/list.json', compact($type));
+    }
+
+    /**
      * @param string $vendor
      *
      * @return array
@@ -77,5 +91,21 @@ class Packagist
             ->getContents();
 
         return json_decode($packages, true);
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return array
+     */
+    public function getPackageMetadata($name)
+    {
+        if ($name === '') {
+            throw new Exception('You must pass a non empty value');
+        }
+
+        $package = explode('/', $name);
+
+        return $this->makeRequest("/packages/{$package[0]}/{$package[1]}.json");
     }
 }
