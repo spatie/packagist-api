@@ -69,4 +69,16 @@ class PackagistTest extends TestCase
 
         $this->assertSame($fullPackageName, $result['package']['name']);
     }
+
+    /** @test */
+    public function it_can_get_packages_by_name()
+    {
+        $fullPackageName = 'spatie/menu';
+
+        $result = $this->packagist->getPackagesByName($fullPackageName);
+
+        $this->assertArrayHasKey('results', $result);
+
+        $this->assertSame($fullPackageName, $result['results'][0]['name']);
+    }
 }
