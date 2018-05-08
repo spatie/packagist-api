@@ -45,7 +45,7 @@ $packagist->getPackagesByVendor('spatie');
 $packagist->findPackageByName('spatie/laravel-backup');
 ```
 
-### Find a package by it's name
+### Get all packages by type
 ``` php
 $packagist->findPackageByType('symfony-bundle');
 ```
