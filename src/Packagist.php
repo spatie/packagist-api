@@ -35,7 +35,7 @@ class Packagist
             throw new Exception('You must pass a non-empty value');
         }
 
-        return $this->makeRequest('/packages/list.json', compact($type));
+        return $this->makeRequest('/packages/list.json', compact('type'));
     }
 
     /**
