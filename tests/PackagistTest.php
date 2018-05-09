@@ -81,4 +81,28 @@ class PackagistTest extends TestCase
 
         $this->assertSame($fullPackageName, $result['results'][0]['name']);
     }
+
+    /** @test */
+    public function it_can_get_all_packages_of_a_specified_type()
+    {
+        $type = 'invoiceninja-module';
+
+        $result = $this->packagist->getPackagesByType($type);
+
+        $this->assertArrayHasKey('packageNames', $result);
+
+        $this->assertGreaterThan(0, count($result['packageNames']));
+
+        foreach ($result['packageNames'] as $packageName) {
+            $this->assertSame($this->packagist->getPackageMetadata($packageName)['package']['type'], $type);
+        }
+    }
+
+    /** @test */
+    public function it_will_throw_an_exception_if_a_type_is_not_specified()
+    {
+        $this->setExpectedException(Exception::class);
+
+        $this->packagist->getPackagesByType('');
+    }
 }
