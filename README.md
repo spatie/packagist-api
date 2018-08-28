@@ -50,6 +50,11 @@ $packagist->findPackageByName('spatie/laravel-backup');
 $packagist->getPackagesByType('symfony-bundle');
 ```
 
+### Get all packages by name and type
+``` php
+$packagist->getPackagesByName('monolog', 'symfony-bundle')
+```
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
