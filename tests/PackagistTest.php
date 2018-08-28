@@ -105,4 +105,17 @@ class PackagistTest extends TestCase
 
         $this->packagist->getPackagesByType('');
     }
+
+     /** @test */
+    public function it_can_get_packages_by_name_and_type()
+    {
+        $fullPackageName = 'symfony/monolog-bundle';
+        $type = 'symfony-bundle';
+
+        $result = $this->packagist->getPackagesByName($fullPackageName, $type);
+
+        $this->assertArrayHasKey('results', $result);
+
+        $this->assertSame($fullPackageName, $result['results'][0]['name']);
+    }
 }
