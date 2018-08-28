@@ -2,6 +2,10 @@
 
 All notable changes to `packagist-api` will be documented in this file
 
+## 1.2.0 - 2018-08-29
+
+- add ability to search by both package and type
+
 ## 1.1.0 - 2018-05-08
 
 - add `findPackageByType`
