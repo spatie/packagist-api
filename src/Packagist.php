@@ -57,9 +57,15 @@ class Packagist
      *
      * @return array
      */
-    public function getPackagesByName($name)
+    public function getPackagesByName($name, $type = '')
     {
-        return $this->makeRequest('/search.json', ['q' => $name]);
+        $query = ['q' => $name];
+
+        if ($type != '') {
+            $query['type'] = $type;
+        }
+
+        return $this->makeRequest('/search.json', $query);
     }
 
     /**
