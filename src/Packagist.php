@@ -77,6 +77,11 @@ class Packagist
     public function findPackageByName($vendor, $packageName = '')
     {
         if ($packageName === '') {
+            
+            if(strpos($vendor, '/') === false){
+                throw new Exception('Invalid package name');
+            }
+            
             list($vendor, $packageName) = explode('/', $vendor);
         }
 
