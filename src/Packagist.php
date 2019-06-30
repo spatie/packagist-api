@@ -86,7 +86,7 @@ class Packagist
             if (strpos($vendor, '/') === false) {
                 throw new InvalidArgumentException('Invalid package name');
             }
-            [$vendor, $packageName] = explode('/', $vendor);
+            list($vendor, $packageName) = explode('/', $vendor);
         }
 
         return $this->makeRequest("/packages/{$vendor}/{$packageName}.json");
