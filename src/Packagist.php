@@ -2,8 +2,8 @@
 
 namespace Spatie\Packagist;
 
-use InvalidArgumentException;
 use GuzzleHttp\Client;
+use InvalidArgumentException;
 
 class Packagist
 {
@@ -86,7 +86,7 @@ class Packagist
             if (strpos($vendor, '/') === false) {
                 throw new InvalidArgumentException('Invalid package name');
             }
-            list($vendor, $packageName) = explode('/', $vendor);
+            [$vendor, $packageName] = explode('/', $vendor);
         }
 
         return $this->makeRequest("/packages/{$vendor}/{$packageName}.json");

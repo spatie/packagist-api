@@ -2,8 +2,8 @@
 
 namespace Spatie\Packagist\Test;
 
-use InvalidArgumentException ;
 use GuzzleHttp\Client;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Spatie\Packagist\Packagist;
 
