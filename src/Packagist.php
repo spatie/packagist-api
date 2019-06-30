@@ -67,7 +67,7 @@ class Packagist
     {
         $query = ['q' => $name];
 
-        if ($type != '') {
+        if ($type !== '') {
             $query['type'] = $type;
         }
 
