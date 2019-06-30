@@ -2,7 +2,7 @@
 
 namespace Spatie\Packagist;
 
-use Exception;
+use InvalidArgumentException;
 use GuzzleHttp\Client;
 
 class Packagist
@@ -28,32 +28,38 @@ class Packagist
      * @param string $type
      *
      * @return array
+     *
+     * @throws InvalidArgumentException
      */
     public function getPackagesByType($type)
     {
         if (empty($type)) {
-            throw new Exception('You must pass a non-empty value');
+            throw new InvalidArgumentException('You must pass a non-empty value');
         }
 
         return $this->makeRequest('/packages/list.json', compact('type'));
     }
 
     /**
-     * @param string $vendor
+     * @param $vendor
      *
      * @return array
+     *
+     * @throws InvalidArgumentException
      */
     public function getPackagesByVendor($vendor)
     {
         if (empty($vendor)) {
-            throw new Exception('You must pass a non empty value');
+            throw new InvalidArgumentException('You must pass a non empty value');
         }
 
         return $this->makeRequest('/packages/list.json', compact('vendor'));
     }
 
     /**
-     * @param string $name
+     * @param $name
+     *
+     * @param string $type
      *
      * @return array
      */
@@ -78,7 +84,7 @@ class Packagist
     {
         if ($packageName === '') {
             if (strpos($vendor, '/') === false) {
-                throw new Exception('Invalid package name');
+                throw new InvalidArgumentException('Invalid package name');
             }
             list($vendor, $packageName) = explode('/', $vendor);
         }
@@ -110,7 +116,7 @@ class Packagist
     public function getPackageMetadata($name)
     {
         if ($name === '') {
-            throw new Exception('You must pass a non empty value');
+            throw new InvalidArgumentException('You must pass a non empty value');
         }
 
         $package = explode('/', $name);
