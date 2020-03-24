@@ -80,7 +80,7 @@ class Packagist
             if (strpos($vendor, '/') === false) {
                 throw new Exception('Invalid package name');
             }
-            list($vendor, $packageName) = explode('/', $vendor);
+            [$vendor, $packageName] = explode('/', $vendor);
         }
 
         return $this->makeRequest("/packages/{$vendor}/{$packageName}.json");
@@ -113,7 +113,7 @@ class Packagist
             throw new Exception('You must pass a non empty value');
         }
 
-        list($vendor, $packageName) = explode('/', $name);
+        [$vendor, $packageName] = explode('/', $name);
 
         return $this->makeRequest("/packages/{$vendor}/{$packageName}.json");
     }
