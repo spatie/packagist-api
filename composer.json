@@ -23,7 +23,7 @@
         }
     ],
     "require": {
-        "php" : "^5.5|^7.0",
+        "php" : "^7.1",
         "guzzlehttp/guzzle":"^6.2.3"
     },
     "require-dev": {
