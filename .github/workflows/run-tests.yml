@@ -12,7 +12,7 @@ jobs:
                 php: [7.3, 7.4]
                 dependency-version: [prefer-lowest, prefer-stable]
 
-        name: P${{ matrix.php }} - ${{ matrix.os }}
+        name: P${{ matrix.php }} - ${{ matrix.os }} - ${{ matrix.dependency-version }}
 
         steps:
             -   name: Checkout code
@@ -32,9 +32,7 @@ jobs:
                     coverage: none
 
             -   name: Install dependencies
-                run: |
-                    composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
-                    composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
+                run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
 
             -   name: Execute tests
                 run: vendor/bin/phpunit
