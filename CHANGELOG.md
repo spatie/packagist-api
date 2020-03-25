@@ -2,6 +2,10 @@
 
 All notable changes to `packagist-api` will be documented in this file
 
+## 1.3.1 - 2020-03-25
+
+- add support for PHP 7.2
+
 ## 1.3.0 - 2020-03-25
 
 - Dropped support for anything below PHP 7.3
