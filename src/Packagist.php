@@ -13,22 +13,13 @@ class Packagist
     /** @var string */
     protected $baseUrl;
 
-    /**
-     * @param Client $client
-     * @param string $baseUrl
-     */
-    public function __construct(Client $client, $baseUrl = 'https://packagist.org')
+    public function __construct(Client $client, string $baseUrl = 'https://packagist.org')
     {
         $this->client = $client;
         $this->baseUrl = $baseUrl;
     }
 
-    /**
-     * @param string $type
-     *
-     * @return array
-     */
-    public function getPackagesByType($type)
+    public function getPackagesByType(string $type): ?array
     {
         if (empty($type)) {
             throw new InvalidArgumentException('You must pass a non-empty value');
@@ -37,12 +28,7 @@ class Packagist
         return $this->makeRequest('/packages/list.json', compact('type'));
     }
 
-    /**
-     * @param string $vendor
-     *
-     * @return array
-     */
-    public function getPackagesByVendor($vendor)
+    public function getPackagesByVendor(string $vendor): ?array
     {
         if (empty($vendor)) {
             throw new InvalidArgumentException('You must pass a non empty value');
@@ -51,48 +37,41 @@ class Packagist
         return $this->makeRequest('/packages/list.json', compact('vendor'));
     }
 
-    /**
-     * @param string $name
-     * @param string $type
-     *
-     * @return array
-     */
-    public function getPackagesByName($name, $type = '')
+    public function getPackagesByName(string $name, ?string $type = null): ?array
     {
         $query = ['q' => $name];
 
-        if (strlen($type) > 0) {
+        if (is_null($type) === false && strlen($type) > 0) {
             $query['type'] = $type;
         }
 
         return $this->makeRequest('/search.json', $query);
     }
 
-    /**
-     * @param string $vendor
-     * @param string $packageName
-     *
-     * @return array
-     */
-    public function findPackageByName($vendor, $packageName = '')
+    public function findPackageByName(string $vendor, ?string $package = null): ?array
     {
-        if ($packageName === '') {
+        if (is_null($package) || strlen($package) === 0) {
             if (strpos($vendor, '/') === false) {
                 throw new InvalidArgumentException('Invalid package name');
             }
-            [$vendor, $packageName] = explode('/', $vendor);
+            [$vendor, $package] = explode('/', $vendor);
         }
 
-        return $this->makeRequest("/packages/{$vendor}/{$packageName}.json");
+        return $this->makeRequest("/packages/{$vendor}/{$package}.json");
     }
 
-    /**
-     * @param string $resource
-     * @param array  $query
-     *
-     * @return array
-     */
-    public function makeRequest($resource, array $query = [])
+    public function getPackageMetadata(string $name)
+    {
+        if ($name === '') {
+            throw new InvalidArgumentException('You must pass a non empty value');
+        }
+
+        [$vendor, $package] = explode('/', $name);
+
+        return $this->makeRequest("/packages/{$vendor}/{$package}.json");
+    }
+
+    public function makeRequest(string $resource, array $query = []): ?array
     {
         $packages = $this->client
             ->get("{$this->baseUrl}{$resource}", compact('query'))
@@ -100,21 +79,5 @@ class Packagist
             ->getContents();
 
         return json_decode($packages, true);
-    }
-
-    /**
-     * @param string $name
-     *
-     * @return array
-     */
-    public function getPackageMetadata($name)
-    {
-        if ($name === '') {
-            throw new InvalidArgumentException('You must pass a non empty value');
-        }
-
-        [$vendor, $packageName] = explode('/', $name);
-
-        return $this->makeRequest("/packages/{$vendor}/{$packageName}.json");
     }
 }
