@@ -2,7 +2,6 @@
 
 namespace Spatie\Packagist\Test;
 
-use Exception;
 use GuzzleHttp\Client;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
