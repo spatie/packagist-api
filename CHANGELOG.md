@@ -2,9 +2,9 @@
 
 All notable changes to `packagist-api` will be documented in this file
 
-## Unreleased
+## 1.3.0 - 2020-03-25
 
-- Dropped support for PHP 7.0 and 7.1
+- Dropped support for anything below PHP 7.3
 
 ## 1.2.1 - 2019-04-10
 

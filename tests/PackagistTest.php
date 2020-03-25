@@ -12,7 +12,7 @@ class PackagistTest extends TestCase
     /** @var \Spatie\Packagist\Packagist */
     protected $packagist;
 
-    public function setUp()
+    public function setUp(): void
     {
         $client = new Client();
 
@@ -40,7 +40,7 @@ class PackagistTest extends TestCase
     /** @test */
     public function it_will_throw_an_exception_if_a_vendor_is_not_specified()
     {
-        $this->setExpectedException(Exception::class);
+        $this->expectException(Exception::class);
 
         $this->packagist->getPackagesByVendor('');
     }
@@ -101,7 +101,7 @@ class PackagistTest extends TestCase
     /** @test */
     public function it_will_throw_an_exception_if_a_type_is_not_specified()
     {
-        $this->setExpectedException(Exception::class);
+        $this->expectException(Exception::class);
 
         $this->packagist->getPackagesByType('');
     }
