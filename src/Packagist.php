@@ -2,8 +2,8 @@
 
 namespace Spatie\Packagist;
 
-use InvalidArgumentException;
 use GuzzleHttp\Client;
+use InvalidArgumentException;
 
 class Packagist
 {
