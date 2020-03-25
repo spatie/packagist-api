@@ -2,8 +2,8 @@
 
 namespace Spatie\Packagist\Test;
 
-use Exception;
 use GuzzleHttp\Client;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Spatie\Packagist\Packagist;
 
@@ -40,7 +40,7 @@ class PackagistTest extends TestCase
     /** @test */
     public function it_will_throw_an_exception_if_a_vendor_is_not_specified()
     {
-        $this->expectException(Exception::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $this->packagist->getPackagesByVendor('');
     }
@@ -101,7 +101,7 @@ class PackagistTest extends TestCase
     /** @test */
     public function it_will_throw_an_exception_if_a_type_is_not_specified()
     {
-        $this->expectException(Exception::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $this->packagist->getPackagesByType('');
     }
