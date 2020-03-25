@@ -2,25 +2,24 @@
 
 namespace Spatie\Packagist;
 
-use Exception;
+use InvalidArgumentException;
 use GuzzleHttp\Client;
 
 class Packagist
 {
-    /** @var \GuzzleHttp\Client */
+    /** @var Client */
     protected $client;
 
     /** @var string */
     protected $baseUrl;
 
     /**
-     * @param \GuzzleHttp\Client $client
-     * @param string             $baseUrl
+     * @param Client $client
+     * @param string $baseUrl
      */
     public function __construct(Client $client, $baseUrl = 'https://packagist.org')
     {
         $this->client = $client;
-
         $this->baseUrl = $baseUrl;
     }
 
@@ -32,7 +31,7 @@ class Packagist
     public function getPackagesByType($type)
     {
         if (empty($type)) {
-            throw new Exception('You must pass a non-empty value');
+            throw new InvalidArgumentException('You must pass a non-empty value');
         }
 
         return $this->makeRequest('/packages/list.json', compact('type'));
@@ -46,7 +45,7 @@ class Packagist
     public function getPackagesByVendor($vendor)
     {
         if (empty($vendor)) {
-            throw new Exception('You must pass a non empty value');
+            throw new InvalidArgumentException('You must pass a non empty value');
         }
 
         return $this->makeRequest('/packages/list.json', compact('vendor'));
@@ -54,6 +53,7 @@ class Packagist
 
     /**
      * @param string $name
+     * @param string $type
      *
      * @return array
      */
@@ -69,7 +69,7 @@ class Packagist
     }
 
     /**
-     * @param $vendor
+     * @param string $vendor
      * @param string $packageName
      *
      * @return array
@@ -78,7 +78,7 @@ class Packagist
     {
         if ($packageName === '') {
             if (strpos($vendor, '/') === false) {
-                throw new Exception('Invalid package name');
+                throw new InvalidArgumentException('Invalid package name');
             }
             [$vendor, $packageName] = explode('/', $vendor);
         }
@@ -110,7 +110,7 @@ class Packagist
     public function getPackageMetadata($name)
     {
         if ($name === '') {
-            throw new Exception('You must pass a non empty value');
+            throw new InvalidArgumentException('You must pass a non empty value');
         }
 
         [$vendor, $packageName] = explode('/', $name);
