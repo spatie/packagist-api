@@ -155,7 +155,7 @@ class PackagistClientTest extends TestCase
     }
 
     /**
-     * Create a client and fake the given endpoint
+     * Create a client and fake the given endpoint.
      *
      * @return PackagistClient
      */

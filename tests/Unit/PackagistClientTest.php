@@ -12,7 +12,6 @@ use Spatie\Packagist\PackagistUrlGenerator;
 
 class PackagistClientTest extends TestCase
 {
-
     /** @test */
     public function it_can_list_package_names()
     {

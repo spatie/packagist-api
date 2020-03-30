@@ -41,6 +41,7 @@ class PackagistUrlGenerator
         if (in_array($mode, [self::API_MODE, self::REPO_MODE]) === false) {
             throw new InvalidArgumentException("Mode '{$mode}' is not supported. Use the constants of the `PackagistUrlGenerator` to decide which mode to use.");
         }
+
         return $this->config[$mode].$resource;
     }
 

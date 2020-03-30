@@ -8,7 +8,6 @@ use Spatie\Packagist\PackagistUrlGenerator;
 
 class PackagistUrlGeneratorTest extends TestCase
 {
-
     /** @test */
     public function it_can_generate_a_url_for_an_api_call()
     {
