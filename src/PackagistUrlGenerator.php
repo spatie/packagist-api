@@ -1,0 +1,53 @@
+<?php
+
+namespace Spatie\Packagist;
+
+class PackagistUrlGenerator
+{
+    public const API_MODE = 'base_url';
+    public const REPO_MODE = 'repo_url';
+
+    /**
+     * @var array
+     */
+    private $config;
+
+    /**
+     * PackagistManager constructor.
+     *
+     * @param string $baseUrl
+     * @param string $repoUrl
+     */
+    public function __construct(?string $baseUrl = null, ?string $repoUrl = null)
+    {
+        $config[self::API_MODE] = $this->formatUrl($baseUrl ?? 'https://packagist.org');
+        $config[self::REPO_MODE] = $this->formatUrl($repoUrl ?? 'https://repo.packagist.org');
+
+        $this->config = $config;
+    }
+
+    /**
+     * Build a url based on the given string.
+     *
+     * @param string $resource
+     * @param string $mode
+     *
+     * @return string
+     */
+    public function make(string $resource = '', string $mode = self::API_MODE): string
+    {
+        return $this->config[$mode] . $resource;
+    }
+
+    /**
+     * Finish the url with a forward slash for consistency.
+     *
+     * @param string $url
+     *
+     * @return string
+     */
+    private function formatUrl(string $url): string
+    {
+        return preg_replace('/(?:\/)+$/u', '', $url).'/';
+    }
+}
