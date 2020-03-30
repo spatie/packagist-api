@@ -3,6 +3,7 @@
 namespace Spatie\Packagist\Test\Unit;
 
 use PHPUnit\Framework\TestCase;
+use Spatie\Packagist\Exceptions\InvalidArgumentException;
 use Spatie\Packagist\PackagistUrlGenerator;
 
 class PackagistUrlGeneratorTest extends TestCase
@@ -50,5 +51,14 @@ class PackagistUrlGeneratorTest extends TestCase
 
         $this->assertEquals('https://api.packagist.com/', $resultA);
         $this->assertEquals('https://repository.packagist.com/', $resultB);
+    }
+
+    /** @test */
+    public function it_throws_an_exception_when_an_invalid_mode_is_used()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $generator = new PackagistUrlGenerator();
+
+        $generator->make('', 'invalid-mode');
     }
 }
