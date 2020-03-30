@@ -118,6 +118,36 @@ class PackagistClientTest extends TestCase
         $client->searchPackages('spatie', ['invalid-filter' => 'value']);
     }
 
+    /** @test */
+    public function it_can_get_a_package_via_the_api()
+    {
+        $client = $this->client('api.test/packages/spatie/packagist-api.json');
+
+        $result = $client->getPackage('spatie', 'packagist-api');
+
+        $this->assertEquals($result, ['result' => 'ok']);
+    }
+
+    /** @test */
+    public function it_can_get_a_package_via_the_repository()
+    {
+        $client = $this->client('repo.test/p/spatie/packagist-api.json');
+
+        $result = $client->getPackageMetadata('spatie', 'packagist-api');
+
+        $this->assertEquals($result, ['result' => 'ok']);
+    }
+
+    /** @test */
+    public function it_can_get_the_statistics()
+    {
+        $client = $this->client('api.test/statistics.json');
+
+        $result = $client->getStatistics();
+
+        $this->assertEquals($result, ['result' => 'ok']);
+    }
+
     /**
      * Create a client and fake the given endpoint
      *

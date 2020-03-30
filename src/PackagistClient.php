@@ -72,6 +72,27 @@ class PackagistClient
         return $this->searchPackages($name, ['type' => $type], $page, $perPage);
     }
 
+    public function getPackage(string $vendor, ?string $package = null): ?array
+    {
+        [$vendor, $package] = PackagistVendorFormatter::format($vendor, $package);
+        $resource = 'packages/'.$vendor.'/'.$package.'.json';
+
+        return $this->request($resource, [], PackagistUrlGenerator::API_MODE);
+    }
+
+    public function getPackageMetadata(string $vendor, ?string $package = null): ?array
+    {
+        [$vendor, $package] = PackagistVendorFormatter::format($vendor, $package);
+        $resource = 'p/'.$vendor.'/'.$package.'.json';
+
+        return $this->request($resource, [], PackagistUrlGenerator::REPO_MODE);
+    }
+
+    public function getStatistics(): ?array
+    {
+        return $this->request('statistics.json');
+    }
+
     public function request(string $resource, array $query = [], string $mode = PackagistUrlGenerator::API_MODE): ?array
     {
         $url = $this->url->make($resource, $mode);
