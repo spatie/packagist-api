@@ -96,11 +96,11 @@ class PackagistClient
     public function request(string $resource, array $query = [], string $mode = PackagistUrlGenerator::API_MODE): ?array
     {
         $url = $this->url->make($resource, $mode);
-        $packages = $this->client
+        $response = $this->client
             ->get($url, ['query' => array_filter($query)])
             ->getBody()
             ->getContents();
 
-        return json_decode($packages, true);
+        return json_decode($response, true);
     }
 }
