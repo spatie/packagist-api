@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Spatie\Packagist\Exceptions\InvalidArgumentException;
 use Spatie\Packagist\PackagistClient;
 use Spatie\Packagist\PackagistUrlGenerator;
 
@@ -106,6 +107,15 @@ class PackagistClientTest extends TestCase
         $result = $client->searchPackagesByTags('psr-7', 'spatie');
 
         $this->assertEquals($result, ['result' => 'ok']);
+    }
+
+    /** @test */
+    public function it_throws_an_exception_when_an_invalid_filter_is_appended_to_the_search_action()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $client = new PackagistClient(new Client(), new PackagistUrlGenerator('api.test', 'repo.test'));
+
+        $client->searchPackages('spatie', ['invalid-filter' => 'value']);
     }
 
     /**
