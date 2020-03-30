@@ -2,10 +2,7 @@
 
 namespace Spatie\Packagist\Test\Unit;
 
-use GuzzleHttp\Client;
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Spatie\Packagist\Packagist;
 use Spatie\Packagist\PackagistUrlGenerator;
 
 class PackagistUrlGeneratorTest extends TestCase
