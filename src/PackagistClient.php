@@ -6,9 +6,8 @@ use GuzzleHttp\Client;
 use Spatie\Packagist\Exceptions\InvalidArgumentException;
 
 /**
- * Class PackagistClient
+ * Class PackagistClient.
  *
- * @package Spatie\Packagist
  * @see https://packagist.org/apidoc
  */
 class PackagistClient
