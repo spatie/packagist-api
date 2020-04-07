@@ -5,21 +5,12 @@ namespace Spatie\Packagist;
 use GuzzleHttp\Client;
 use Spatie\Packagist\Exceptions\InvalidArgumentException;
 
-/**
- * Class PackagistClient.
- *
- * @see https://packagist.org/apidoc
- */
 class PackagistClient
 {
-    /**
-     * @var Client
-     */
+    /** @var \GuzzleHttp\Client */
     protected $client;
 
-    /**
-     * @var PackagistUrlGenerator
-     */
+    /** @var \Spatie\Packagist\PackagistUrlGenerator */
     private $url;
 
     public function __construct(Client $client, PackagistUrlGenerator $url)
