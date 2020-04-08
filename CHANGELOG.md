@@ -2,7 +2,8 @@
 
 All notable changes to `packagist-api` will be documented in this file
 
-## 2.0.0 - (unreleased)
+## 2.0.0 - 2020-04-08
+
 - Renamed `Packagist` class to `PackagistClient`.
 - Changed the interface of the `PackagistClient` class to reflect the current state of the [Packagist API](https://packagist.org/apidoc)
 - Moved url generation to a separate class.
