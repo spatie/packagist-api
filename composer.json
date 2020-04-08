@@ -20,6 +20,11 @@
             "email": "jolita@spatie.be",
             "homepage": "https://spatie.be",
             "role": "Developer"
+        },
+        {
+            "name": "Mark Walet",
+            "homepage": "https://markwalet.me",
+            "role": "Developer"
         }
     ],
     "require": {
