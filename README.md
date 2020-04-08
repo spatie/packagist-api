@@ -21,6 +21,7 @@ You can install the package via composer:
 composer require spatie/packagist-api
 ```
 
+There is also a [Laravel wrapper](https://packagist.org/packages/markwalet/laravel-packagist) available for this package.
 ## Usage
 
 You must pass a Guzzle client and a url generator to the constructor of `Spatie\Packagist\PackagistClient`.
@@ -106,6 +107,7 @@ If you discover any security related issues, please email freek@spatie.be instea
 
 - [Freek Van der Herten](https://github.com/freekmurze)
 - [Jolita Grazyte](https://github.com/JolitaGrazyte)
+- [Mark Walet](https://github.com/markwalet)
 - [All Contributors](../../contributors)
 
 ## About Spatie
