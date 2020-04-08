@@ -23,33 +23,66 @@ composer require spatie/packagist-api
 
 ## Usage
 
-You must pass a Guzzle client to the constructor of `Spatie\Packagist\Packagist`.
+You must pass a Guzzle client and a url generator to the constructor of `Spatie\Packagist\PackagistClient`.
 
-``` php
+```php
 $client = new \GuzzleHttp\Client();
+$generator = new \Spatie\Packagist\PackagistUrlGenerator();
 
-$packagist = new \Spatie\Packagist\Packagist($client);
+$packagist = new \Spatie\Packagist\PackagistClient($client, $generator);
 ```
 
-### Get all packages by a specific vendor
-``` php
-$packagist->getPackagesByVendor('spatie');
+### List package names
+```php
+// All packages
+$packagist->getPackagesNames();
+
+// List packages by type.
+$packagist->getPackagesNamesByType('composer-plugin');
+
+// List packages by organization
+$packagist->getPackagesNamesByVendor('spatie');
 ```
 
-### Find a package by it's name
-``` php
-$packagist->findPackageByName('spatie/laravel-backup');
+### Searching for packages
+```php
+// Search packages by name.
+$packagist->searchPackagesByName('packagist');
+
+// Search packages by tag.
+$packagist->searchPackagesByTags('psr-3');
+
+// Search packages by type.
+$packagist->searchPackagesByType('composer-plugin');
+
+// Combined search.
+$packagist->searchPackages('packagist', ['type' => 'library']);
 ```
 
-### Get all packages by type
-``` php
-$packagist->getPackagesByType('symfony-bundle');
+### Pagination
+Searching for packages returns a paginated result. You can change the pagination settings by adding more parameters.
+
+```php
+// Get the third page, 10 items per page.
+$packagist->searchPackagesByName('packagist', 3, 10);
 ```
 
-### Get all packages by name and type
-``` php
-$packagist->getPackagesByName('monolog', 'symfony-bundle')
+### Getting package data.
+```php
+// Using the Composer metadata. (faster, but less data)
+$packagist->getPackageMetadata('spatie/packagist-api');
+$packagist->getPackageMetadata('spatie', 'packagist-api');
+
+// Using the API. (slower, cached for 12 hours by Packagist.
+$packagist->getPackage('spatie/packagist-api');
+$packagist->getPackage('spatie', 'packagist-api');
 ```
+
+### Get Statistics
+```php
+$packagist->getStatistics();
+```
+
 
 ## Changelog
 
