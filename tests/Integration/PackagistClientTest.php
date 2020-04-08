@@ -26,10 +26,9 @@ class PackagistClientTest extends TestCase
 
         $result = $client->getPackagesNamesByVendor('spatie');
 
-        // Testing on the first 10 packages should be enough.
-        $packages = array_slice($result['packageNames'], 0, 10);
+        $first10Packages = array_slice($result['packageNames'], 0, 10);
 
-        foreach ($packages as $package) {
+        foreach ($first10Packages as $package) {
             $this->assertStringStartsWith('spatie/', $package);
         }
     }
@@ -39,17 +38,14 @@ class PackagistClientTest extends TestCase
     {
         $client = $this->client();
 
-        // Do tests on the first found repository.
         $result = $client->getPackagesNamesByType('composer-plugin');
-        $repository = current($result['packageNames']);
+        $firstRepository = current($result['packageNames']);
 
-        $metadata = $client->getPackageMetadata($repository);
+        $metadata = $client->getPackageMetadata($firstRepository);
 
-        // Get the latest version of the package.
-        $latest = end($metadata['packages'][$repository]);
+        $latestVersion = end($metadata['packages'][$firstRepository]);
 
-        // Test if the searched type is the type in the current repository.
-        $this->assertEquals('composer-plugin', $latest['type']);
+        $this->assertEquals('composer-plugin', $latestVersion['type']);
     }
 
     /** @test */
@@ -59,8 +55,6 @@ class PackagistClientTest extends TestCase
 
         $result = $client->searchPackagesByName('monolog');
 
-        // We cannot do assertions on the list of repositories that is returned because
-        // it is unclear how the search algorithm of Packagist works when searching on name.
         $this->assertArrayHasKey('results', $result);
         $this->assertIsArray($result['results']);
     }
@@ -81,18 +75,15 @@ class PackagistClientTest extends TestCase
     {
         $client = $this->client();
 
-        // Do tests on the first found repository.
         $result = $client->searchPackagesByType('symfony-bundle');
-        $repository = current($result['results']);
+        $firstRepository = current($result['results']);
 
-        $name = $repository['name'];
+        $name = $firstRepository['name'];
         $metadata = $client->getPackageMetadata($name);
 
-        // Get the latest version of the package.
-        $latest = end($metadata['packages'][$name]);
+        $latestVersion = end($metadata['packages'][$name]);
 
-        // Test if the searched type is the type in the current repository.
-        $this->assertEquals('symfony-bundle', $latest['type']);
+        $this->assertEquals('symfony-bundle', $latestVersion['type']);
     }
 
     /** @test */
@@ -100,20 +91,17 @@ class PackagistClientTest extends TestCase
     {
         $client = $this->client();
 
-        // Do tests on the first found repository.
         $result = $client->searchPackagesByTags('psr-7');
-        $repository = current($result['results']);
+        $firstRepository = current($result['results']);
 
-        $this->assertArrayHasKey('name', $repository);
+        $this->assertArrayHasKey('name', $firstRepository);
 
-        $name = $repository['name'];
+        $name = $firstRepository['name'];
         $metadata = $client->getPackageMetadata($name);
 
-        // Get the latest version of the package.
-        $latest = end($metadata['packages'][$name]);
+        $latestVersion = end($metadata['packages'][$name]);
 
-        // Test if the searched tag is a keyword in the current repository.
-        $this->assertContains('psr-7', $latest['keywords']);
+        $this->assertContains('psr-7', $latestVersion['keywords']);
     }
 
     /** @test */
@@ -154,12 +142,7 @@ class PackagistClientTest extends TestCase
         $this->assertArrayHasKey('downloads', $result['totals']);
     }
 
-    /**
-     * Create a client and fake the given endpoint.
-     *
-     * @return PackagistClient
-     */
-    private function client()
+    private function client(): PackagistClient
     {
         $http = new Client();
 

@@ -11,11 +11,12 @@ class PackagistClient
     protected $client;
 
     /** @var \Spatie\Packagist\PackagistUrlGenerator */
-    private $url;
+    protected $url;
 
     public function __construct(Client $client, PackagistUrlGenerator $url)
     {
         $this->client = $client;
+
         $this->url = $url;
     }
 

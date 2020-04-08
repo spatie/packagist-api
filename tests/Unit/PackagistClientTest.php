@@ -15,7 +15,7 @@ class PackagistClientTest extends TestCase
     /** @test */
     public function it_can_list_package_names()
     {
-        $client = $this->client('api.test/packages/list.json');
+        $client = $this->packagistClientWithMockedHttp('api.test/packages/list.json');
 
         $result = $client->getPackagesNames();
 
@@ -25,7 +25,7 @@ class PackagistClientTest extends TestCase
     /** @test */
     public function it_can_list_package_names_by_type_and_vendor()
     {
-        $client = $this->client('api.test/packages/list.json', ['type' => 'composer-plugin', 'vendor' => 'spatie']);
+        $client = $this->packagistClientWithMockedHttp('api.test/packages/list.json', ['type' => 'composer-plugin', 'vendor' => 'spatie']);
 
         $result = $client->getPackagesNames('composer-plugin', 'spatie');
 
@@ -35,7 +35,7 @@ class PackagistClientTest extends TestCase
     /** @test */
     public function it_can_list_package_names_for_a_vendor()
     {
-        $client = $this->client('api.test/packages/list.json', ['vendor' => 'spatie']);
+        $client = $this->packagistClientWithMockedHttp('api.test/packages/list.json', ['vendor' => 'spatie']);
 
         $result = $client->getPackagesNamesByVendor('spatie');
 
@@ -45,7 +45,7 @@ class PackagistClientTest extends TestCase
     /** @test */
     public function it_can_list_package_names_for_a_type()
     {
-        $client = $this->client('api.test/packages/list.json', ['type' => 'composer-plugin']);
+        $client = $this->packagistClientWithMockedHttp('api.test/packages/list.json', ['type' => 'composer-plugin']);
 
         $result = $client->getPackagesNamesByType('composer-plugin');
 
@@ -55,7 +55,7 @@ class PackagistClientTest extends TestCase
     /** @test */
     public function it_can_search_packages()
     {
-        $client = $this->client(
+        $client = $this->packagistClientWithMockedHttp(
             'api.test/search.json',
             ['q' => 'keyword', 'tags' => 'tag-1', 'type' => 'composer-plugin', 'page' => 1, 'per_page' => 15]
         );
@@ -68,7 +68,7 @@ class PackagistClientTest extends TestCase
     /** @test */
     public function it_can_set_the_pagination_settings_while_searching()
     {
-        $client = $this->client(
+        $client = $this->packagistClientWithMockedHttp(
             'api.test/search.json',
             ['q' => 'keyword', 'page' => 2, 'per_page' => 20]
         );
@@ -81,7 +81,7 @@ class PackagistClientTest extends TestCase
     /** @test */
     public function it_can_search_packages_by_name()
     {
-        $client = $this->client('api.test/search.json', ['q' => 'keyword', 'page' => 1, 'per_page' => 15]);
+        $client = $this->packagistClientWithMockedHttp('api.test/search.json', ['q' => 'keyword', 'page' => 1, 'per_page' => 15]);
 
         $result = $client->searchPackagesByName('keyword');
 
@@ -91,7 +91,7 @@ class PackagistClientTest extends TestCase
     /** @test */
     public function it_can_search_packages_by_type()
     {
-        $client = $this->client('api.test/search.json', ['q' => 'spatie', 'type' => 'composer-plugin', 'page' => 1, 'per_page' => 15]);
+        $client = $this->packagistClientWithMockedHttp('api.test/search.json', ['q' => 'spatie', 'type' => 'composer-plugin', 'page' => 1, 'per_page' => 15]);
 
         $result = $client->searchPackagesByType('composer-plugin', 'spatie');
 
@@ -101,7 +101,7 @@ class PackagistClientTest extends TestCase
     /** @test */
     public function it_can_search_packages_by_tags()
     {
-        $client = $this->client('api.test/search.json', ['q' => 'spatie', 'tags' => 'psr-7', 'page' => 1, 'per_page' => 15]);
+        $client = $this->packagistClientWithMockedHttp('api.test/search.json', ['q' => 'spatie', 'tags' => 'psr-7', 'page' => 1, 'per_page' => 15]);
 
         $result = $client->searchPackagesByTags('psr-7', 'spatie');
 
@@ -120,7 +120,7 @@ class PackagistClientTest extends TestCase
     /** @test */
     public function it_can_get_a_package_via_the_api()
     {
-        $client = $this->client('api.test/packages/spatie/packagist-api.json');
+        $client = $this->packagistClientWithMockedHttp('api.test/packages/spatie/packagist-api.json');
 
         $result = $client->getPackage('spatie', 'packagist-api');
 
@@ -130,7 +130,7 @@ class PackagistClientTest extends TestCase
     /** @test */
     public function it_can_get_a_package_via_the_repository()
     {
-        $client = $this->client('repo.test/p/spatie/packagist-api.json');
+        $client = $this->packagistClientWithMockedHttp('repo.test/p/spatie/packagist-api.json');
 
         $result = $client->getPackageMetadata('spatie', 'packagist-api');
 
@@ -140,7 +140,7 @@ class PackagistClientTest extends TestCase
     /** @test */
     public function it_can_get_the_statistics()
     {
-        $client = $this->client('api.test/statistics.json');
+        $client = $this->packagistClientWithMockedHttp('api.test/statistics.json');
 
         $result = $client->getStatistics();
 
@@ -148,14 +148,12 @@ class PackagistClientTest extends TestCase
     }
 
     /**
-     * Create a client and fake the given endpoint.
-     *
      * @param string $url
      * @param array  $query
      *
      * @return PackagistClient
      */
-    private function client(string $url, array $query = [])
+    private function packagistClientWithMockedHttp(string $url, array $query = []): PackagistClient
     {
         $mock = $this->getMock($url, $query);
 
@@ -163,8 +161,6 @@ class PackagistClientTest extends TestCase
     }
 
     /**
-     * Mock an instance of the Guzzle client.
-     *
      * @param string $url
      * @param array  $query
      *
