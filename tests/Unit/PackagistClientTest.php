@@ -170,7 +170,7 @@ class PackagistClientTest extends TestCase
     {
         $mock = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
-            ->addMethods(['get'])
+            ->onlyMethods(['get'])
             ->getMock();
 
         $mock->expects($this->once())
