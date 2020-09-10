@@ -2,6 +2,10 @@
 
 All notable changes to `packagist-api` will be documented in this file
 
+## 2.0.1 - 2020-09-10
+
+- allow Guzzle 7
+
 ## 2.0.0 - 2020-04-08
 
 - Renamed `Packagist` class to `PackagistClient`.
