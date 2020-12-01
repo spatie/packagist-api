@@ -4,6 +4,10 @@ All notable changes to `packagist-api` will be documented in this file
 
 ## 2.0.1 - 2020-09-10
 
+- add support for PHP 8 ([#19](https://github.com/spatie/packagist-api/pull/19))
+
+## 2.0.1 - 2020-09-10
+
 - allow Guzzle 7
 
 ## 2.0.0 - 2020-04-08
