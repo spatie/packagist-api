@@ -2,6 +2,7 @@
 
 namespace Spatie\Packagist;
 
+use Composer\Semver\Semver;
 use GuzzleHttp\Client;
 use Spatie\Packagist\Exceptions\InvalidArgumentException;
 
@@ -82,6 +83,94 @@ class PackagistClient
     public function getStatistics(): ?array
     {
         return $this->request('statistics.json');
+    }
+
+    /**
+     * Get security vulnerability advisories for specific packages and/or which have been updated since some timestamp.
+     *
+     * If $filterByVersion is true, the $packages array must have package names as keys and versions as values.
+     * If it is false, the $packages array can contain package names as values.
+     *
+     * @throws InvalidArgumentException if no packages and no updatedSince timestamp are passed in
+     */
+    public function getAdvisories(array $packages = [], ?int $updatedSince = null, bool $filterByVersion = false): array
+    {
+        if (count($packages) === 0 && $updatedSince === null) {
+            throw new InvalidArgumentException(
+                'At least one package or an $updatedSince timestamp must be passed in.'
+            );
+        }
+
+        if (count($packages) === 0 && $filterByVersion) {
+            return [];
+        }
+
+        // Add updatedSince to query if passed in
+        $query = [];
+        if ($updatedSince !== null) {
+            $query['updatedSince'] = $updatedSince;
+        }
+        $options = [
+            'query' => array_filter($query),
+        ];
+
+        // Add packages if appropriate
+        if (count($packages) > 0) {
+            $content = ['packages' => []];
+            foreach ($packages as $package => $version) {
+                if (is_numeric($package)) {
+                    $package = $version;
+                }
+                $content['packages'][] = $package;
+            }
+            $options['headers']['Content-type'] = 'application/x-www-form-urlencoded';
+            $options['body'] = http_build_query($content);
+        }
+
+        // Get advisories from API
+        $response = $this->postRequest('api/security-advisories/', $options);
+        if ($response === null) {
+            return [];
+        }
+
+        $advisories = $response['advisories'];
+
+        if (count($advisories) > 0 && $filterByVersion) {
+            return $this->filterAdvisories($advisories, $packages);
+        }
+
+        return $advisories;
+    }
+
+    private function filterAdvisories(array $advisories, array $packages): array
+    {
+        $filteredAdvisories = [];
+        foreach ($packages as $package => $version) {
+            // Skip any packages with no declared versions
+            if (is_numeric($package)) {
+                continue;
+            }
+            // Filter advisories by version
+            if (array_key_exists($package, $advisories)) {
+                foreach ($advisories[$package] as $advisory) {
+                    if (Semver::satisfies($version, $advisory['affectedVersions'])) {
+                        $filteredAdvisories[$package][] = $advisory;
+                    }
+                }
+            }
+        }
+        return $filteredAdvisories;
+    }
+
+    public function postRequest(string $resource, array $options = [], string $mode = PackagistUrlGenerator::API_MODE): ?array
+    {
+        $url = $this->url->make($resource, $mode);
+        $response = $this->client
+            ->post($url, $options)
+            ->getBody()
+            ->getContents();
+
+        return json_decode($response, true);
     }
 
     public function request(string $resource, array $query = [], string $mode = PackagistUrlGenerator::API_MODE): ?array

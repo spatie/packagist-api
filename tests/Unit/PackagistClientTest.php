@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use ReflectionMethod;
 use Spatie\Packagist\Exceptions\InvalidArgumentException;
 use Spatie\Packagist\PackagistClient;
 use Spatie\Packagist\PackagistUrlGenerator;
@@ -145,6 +146,96 @@ class PackagistClientTest extends TestCase
         $result = $client->getStatistics();
 
         $this->assertEquals($result, ['result' => 'ok']);
+    }
+
+    /** @test */
+    public function it_filters_the_advisories_by_package_version()
+    {
+        $mock = $this->getMockBuilder(Client::class)->disableOriginalConstructor()->getMock();
+        $client = new PackagistClient($mock, new PackagistUrlGenerator());
+        $filterAdvisoriesReflection = new ReflectionMethod($client, 'filterAdvisories');
+        $filterAdvisoriesReflection->setAccessible(true);
+
+        $packages = [
+            'no-version/package',
+            'missing/package' => '1.0.0',
+            'matches1/package' => '1.2.3',
+            'matches2/package' => '7.0.0',
+            'no-match/package' => '3.4.5',
+        ];
+        $advisories = [
+            'no-version/package' => [
+                [
+                    'title' => 'advisory1',
+                    'affectedVersions' => '>=1.0.0,<1.8.1',
+                ],
+            ],
+            'matches1/package' => [
+                [
+                    'title' => 'advisory2',
+                    'affectedVersions' => '>=1.0.0,<1.8.1',
+                ],
+                [
+                    'title' => 'advisory3',
+                    'affectedVersions' => '>=1.2.3,<1.2.4',
+                ],
+            ],
+            'matches2/package' => [
+                [
+                    'title' => 'advisory4',
+                    'affectedVersions' => '>=1.0.0,<1.8.1',
+                ],
+                [
+                    'title' => 'advisory5',
+                    'affectedVersions' => '>=7.0.0,<7.8.1',
+                ],
+            ],
+            'no-match/package' => [
+                [
+                    'title' => 'advisory6',
+                    'affectedVersions' => '>=1.0.0,<1.8.1',
+                ],
+            ],
+            'not-requested/package' => [
+                [
+                    'title' => 'advisory7',
+                    'affectedVersions' => '>=1.0.0,<1.8.1',
+                ],
+            ],
+        ];
+
+        $expected = [
+            'matches1/package' => [
+                [
+                    'title' => 'advisory2',
+                    'affectedVersions' => '>=1.0.0,<1.8.1',
+                ],
+                [
+                    'title' => 'advisory3',
+                    'affectedVersions' => '>=1.2.3,<1.2.4',
+                ],
+            ],
+            'matches2/package' => [
+                [
+                    'title' => 'advisory5',
+                    'affectedVersions' => '>=7.0.0,<7.8.1',
+                ],
+            ],
+        ];
+
+        $filtered = $filterAdvisoriesReflection->invoke($client, $advisories, $packages);
+        $this->assertEquals($expected, $filtered);
+    }
+
+    /** @test */
+    public function it_throws_exception_on_bad_advisory_inputs()
+    {
+        $mock = $this->getMockBuilder(Client::class)->disableOriginalConstructor()->getMock();
+        $client = new PackagistClient($mock, new PackagistUrlGenerator());
+
+        $this->expectException(InvalidArgumentException::class);
+
+        $client->getAdvisories([], null);
     }
 
     /**
