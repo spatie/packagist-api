@@ -157,19 +157,12 @@ class PackagistClientTest extends TestCase
         $filterAdvisoriesReflection->setAccessible(true);
 
         $packages = [
-            'no-version/package',
             'missing/package' => '1.0.0',
             'matches1/package' => '1.2.3',
             'matches2/package' => '7.0.0',
             'no-match/package' => '3.4.5',
         ];
         $advisories = [
-            'no-version/package' => [
-                [
-                    'title' => 'advisory1',
-                    'affectedVersions' => '>=1.0.0,<1.8.1',
-                ],
-            ],
             'matches1/package' => [
                 [
                     'title' => 'advisory2',

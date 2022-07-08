@@ -96,13 +96,12 @@ $packages = ['spatie/packagist-api'];
 $advisories = $packagist->getAdvisories($packages);
 
 // Get advisories for specific packages that were updated after some timestamp
-// The $packages array can also be ommitted here to get ALL advisories updated after that timestamp
 $packages = ['spatie/packagist-api'];
 $advisories = $packagist->getAdvisories($packages, strtotime('2 weeks ago'));
 
 // Get advisories only for specific versions of specific packages
 $packages = ['spatie/packagist-api' => '2.0.2'];
-$advisories = $packagist->getAdvisories($packages, null, true);
+$advisories = $packagist->getAdvisoriesAffectingVersions($packages);
 ```
 
 ## Changelog

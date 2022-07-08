@@ -128,7 +128,7 @@ class PackagistClientTest extends TestCase
 
         $this->assertArrayHasKey('packages', $result);
         $this->assertArrayHasKey('spatie/packagist-api', $result['packages']);
-        $this->assertArrayHasKey('dev-master', $result['packages']['spatie/packagist-api']);
+        $this->assertArrayHasKey('dev-main', $result['packages']['spatie/packagist-api']);
     }
 
     /** @test */
@@ -143,44 +143,11 @@ class PackagistClientTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_filtered_advisories_by_package_name()
+    public function it_can_get_advisories_by_package_name()
     {
         $client = $this->client();
 
-        $result = $client->getAdvisories(['silverstripe/admin' => '1.5.0'], null, true);
-
-        $this->assertArrayHasKey('silverstripe/admin', $result);
-        $advisory = [
-            'advisoryId' => 'PKSA-zmvy-dmwz-zrvp',
-            'packageName' => 'silverstripe/admin',
-            'remoteId' => 'silverstripe/admin/CVE-2021-36150.yaml',
-            'title' => 'CVE-2021-36150 - Insert from files link text - Reflective (self) Cross Site Scripting',
-            'link' => 'https://www.silverstripe.org/download/security-releases/CVE-2021-36150',
-            'cve' => 'CVE-2021-36150',
-            'affectedVersions' => '>=1.0.0,<1.8.1',
-            'source' => 'FriendsOfPHP/security-advisories',
-            'reportedAt' => '2021-10-05 05:18:20',
-            'composerRepository' => 'https://packagist.org',
-            'sources' => [
-                [
-                    'name' => 'GitHub',
-                    'remoteId' => 'GHSA-j66h-cc96-c32q',
-                ],
-                [
-                    'name' => 'FriendsOfPHP/security-advisories',
-                    'remoteId' => 'silverstripe/admin/CVE-2021-36150.yaml',
-                ],
-            ],
-        ];
-        $this->assertContains($advisory, $result['silverstripe/admin']);
-    }
-
-    /** @test */
-    public function it_can_get_unfiltered_advisories_by_package_name()
-    {
-        $client = $this->client();
-
-        $result = $client->getAdvisories(['silverstripe/admin'], null, false);
+        $result = $client->getAdvisories(['silverstripe/admin']);
 
         $this->assertArrayHasKey('silverstripe/admin', $result);
         $advisories = [
@@ -231,11 +198,44 @@ class PackagistClientTest extends TestCase
     }
 
     /** @test */
+    public function it_can_get_filtered_advisories_by_package_name()
+    {
+        $client = $this->client();
+
+        $result = $client->getAdvisoriesAffectingVersions(['silverstripe/admin' => '1.5.0']);
+
+        $this->assertArrayHasKey('silverstripe/admin', $result);
+        $advisory = [
+            'advisoryId' => 'PKSA-zmvy-dmwz-zrvp',
+            'packageName' => 'silverstripe/admin',
+            'remoteId' => 'silverstripe/admin/CVE-2021-36150.yaml',
+            'title' => 'CVE-2021-36150 - Insert from files link text - Reflective (self) Cross Site Scripting',
+            'link' => 'https://www.silverstripe.org/download/security-releases/CVE-2021-36150',
+            'cve' => 'CVE-2021-36150',
+            'affectedVersions' => '>=1.0.0,<1.8.1',
+            'source' => 'FriendsOfPHP/security-advisories',
+            'reportedAt' => '2021-10-05 05:18:20',
+            'composerRepository' => 'https://packagist.org',
+            'sources' => [
+                [
+                    'name' => 'GitHub',
+                    'remoteId' => 'GHSA-j66h-cc96-c32q',
+                ],
+                [
+                    'name' => 'FriendsOfPHP/security-advisories',
+                    'remoteId' => 'silverstripe/admin/CVE-2021-36150.yaml',
+                ],
+            ],
+        ];
+        $this->assertContains($advisory, $result['silverstripe/admin']);
+    }
+
+    /** @test */
     public function it_can_get_advisories_by_timestamp()
     {
         $client = $this->client();
 
-        $result = $client->getAdvisories([], 1656670429);
+        $result = $client->getAdvisories(['microweber/microweber'], 1656670429);
 
         $this->assertArrayHasKey('microweber/microweber', $result);
     }
