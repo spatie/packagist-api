@@ -127,6 +127,7 @@ class PackagistClient
         if (count($advisories) > 0) {
             return $this->filterAdvisories($advisories, $packages);
         }
+
         return $advisories;
     }
 
@@ -134,7 +135,7 @@ class PackagistClient
     {
         $filteredAdvisories = [];
         foreach ($packages as $package => $version) {
-            if (!is_string($package) || !is_string($version)) {
+            if (! is_string($package) || ! is_string($version)) {
                 throw new InvalidArgumentException('$packages array must have package names as keys and versions as values.');
             }
             if (array_key_exists($package, $advisories)) {
@@ -145,6 +146,7 @@ class PackagistClient
                 }
             }
         }
+
         return $filteredAdvisories;
     }
 
