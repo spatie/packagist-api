@@ -2,6 +2,20 @@
 
 All notable changes to `packagist-api` will be documented in this file
 
+## 2.1.0 - 2022-08-01
+
+### What's Changed
+
+- Add PHP 8.1 Support by @patinthehat in https://github.com/spatie/packagist-api/pull/20
+- Add security advisory endpoint by @GuySartorelli in https://github.com/spatie/packagist-api/pull/21
+
+### New Contributors
+
+- @patinthehat made their first contribution in https://github.com/spatie/packagist-api/pull/20
+- @GuySartorelli made their first contribution in https://github.com/spatie/packagist-api/pull/21
+
+**Full Changelog**: https://github.com/spatie/packagist-api/compare/2.0.2...2.1.0
+
 ## 2.0.2 - 2020-12-01
 
 - add support for PHP 8 ([#19](https://github.com/spatie/packagist-api/pull/19))
