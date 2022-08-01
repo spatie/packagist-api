@@ -2,6 +2,7 @@
 
 namespace Spatie\Packagist;
 
+use Composer\Semver\Semver;
 use GuzzleHttp\Client;
 use Spatie\Packagist\Exceptions\InvalidArgumentException;
 
@@ -82,6 +83,80 @@ class PackagistClient
     public function getStatistics(): ?array
     {
         return $this->request('statistics.json');
+    }
+
+    public function getAdvisories(array $packages = [], ?int $updatedSince = null): array
+    {
+        if (count($packages) === 0) {
+            throw new InvalidArgumentException(
+                'At least one package must be passed in.'
+            );
+        }
+
+        $query = [];
+        if ($updatedSince !== null) {
+            $query['updatedSince'] = $updatedSince;
+        }
+        $options = [
+            'query' => array_filter($query),
+        ];
+
+        $content = ['packages' => []];
+        foreach ($packages as $package => $version) {
+            if (is_numeric($package)) {
+                $package = $version;
+            }
+            $content['packages'][] = $package;
+        }
+        $options['headers']['Content-type'] = 'application/x-www-form-urlencoded';
+        $options['body'] = http_build_query($content);
+
+        $response = $this->postRequest('api/security-advisories/', $options);
+        if ($response === null) {
+            return [];
+        }
+
+        $advisories = $response['advisories'];
+
+        return $advisories;
+    }
+
+    public function getAdvisoriesAffectingVersions(array $packages = [], ?int $updatedSince = null): array
+    {
+        $advisories = $this->getAdvisories($packages, $updatedSince);
+        if (count($advisories) > 0) {
+            return $this->filterAdvisories($advisories, $packages);
+        }
+        return $advisories;
+    }
+
+    protected function filterAdvisories(array $advisories, array $packages): array
+    {
+        $filteredAdvisories = [];
+        foreach ($packages as $package => $version) {
+            if (!is_string($package) || !is_string($version)) {
+                throw new InvalidArgumentException('$packages array must have package names as keys and versions as values.');
+            }
+            if (array_key_exists($package, $advisories)) {
+                foreach ($advisories[$package] as $advisory) {
+                    if (Semver::satisfies($version, $advisory['affectedVersions'])) {
+                        $filteredAdvisories[$package][] = $advisory;
+                    }
+                }
+            }
+        }
+        return $filteredAdvisories;
+    }
+
+    public function postRequest(string $resource, array $options = [], string $mode = PackagistUrlGenerator::API_MODE): ?array
+    {
+        $url = $this->url->make($resource, $mode);
+        $response = $this->client
+            ->post($url, $options)
+            ->getBody()
+            ->getContents();
+
+        return json_decode($response, true);
     }
 
     public function request(string $resource, array $query = [], string $mode = PackagistUrlGenerator::API_MODE): ?array

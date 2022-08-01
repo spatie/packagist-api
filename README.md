@@ -65,7 +65,7 @@ $packagist->searchPackagesByType('composer-plugin');
 $packagist->searchPackages('packagist', ['type' => 'library']);
 ```
 
-### Pagination
+#### Pagination
 Searching for packages returns a paginated result. You can change the pagination settings by adding more parameters.
 
 ```php
@@ -87,6 +87,21 @@ $packagist->getPackage('spatie', 'packagist-api');
 ### Get Statistics
 ```php
 $packagist->getStatistics();
+```
+
+### Get security vulnerability advisories
+```php
+// Get advisories for specific packages
+$packages = ['spatie/packagist-api'];
+$advisories = $packagist->getAdvisories($packages);
+
+// Get advisories for specific packages that were updated after some timestamp
+$packages = ['spatie/packagist-api'];
+$advisories = $packagist->getAdvisories($packages, strtotime('2 weeks ago'));
+
+// Get advisories only for specific versions of specific packages
+$packages = ['spatie/packagist-api' => '2.0.2'];
+$advisories = $packagist->getAdvisoriesAffectingVersions($packages);
 ```
 
 ## Changelog
