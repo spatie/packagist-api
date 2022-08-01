@@ -140,7 +140,7 @@ class PackagistClient
     {
         $filteredAdvisories = [];
         foreach ($packages as $package => $version) {
-            if (!is_string($package) || !is_string($version)) {
+            if (! is_string($package) || ! is_string($version)) {
                 throw new InvalidArgumentException('$packages array must have package names as keys and versions as values.');
             }
 
@@ -152,6 +152,7 @@ class PackagistClient
                 }
             }
         }
+
         return $filteredAdvisories;
     }
 
