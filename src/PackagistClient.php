@@ -94,14 +94,17 @@ class PackagistClient
         }
 
         $query = [];
+
         if ($updatedSince !== null) {
             $query['updatedSince'] = $updatedSince;
         }
+
         $options = [
             'query' => array_filter($query),
         ];
 
         $content = ['packages' => []];
+
         foreach ($packages as $package => $version) {
             if (is_numeric($package)) {
                 $package = $version;
@@ -112,6 +115,7 @@ class PackagistClient
         $options['body'] = http_build_query($content);
 
         $response = $this->postRequest('api/security-advisories/', $options);
+
         if ($response === null) {
             return [];
         }
@@ -124,9 +128,11 @@ class PackagistClient
     public function getAdvisoriesAffectingVersions(array $packages = [], ?int $updatedSince = null): array
     {
         $advisories = $this->getAdvisories($packages, $updatedSince);
+
         if (count($advisories) > 0) {
             return $this->filterAdvisories($advisories, $packages);
         }
+
         return $advisories;
     }
 
@@ -137,6 +143,7 @@ class PackagistClient
             if (!is_string($package) || !is_string($version)) {
                 throw new InvalidArgumentException('$packages array must have package names as keys and versions as values.');
             }
+
             if (array_key_exists($package, $advisories)) {
                 foreach ($advisories[$package] as $advisory) {
                     if (Semver::satisfies($version, $advisory['affectedVersions'])) {
