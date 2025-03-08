@@ -28,6 +28,14 @@ class PackagistClient
         return $this->getPackagesNames(null, $vendor);
     }
 
+    public function getPopularPackages(?int $page = 1, int $perPage = 100): ?array
+    {
+        $filters['page'] = $page;
+        $filters['per_page'] = $perPage;
+
+        return $this->request('explore/popular.json', $filters);
+    }
+
     public function searchPackages($name = null, array $filters = [], ?int $page = 1, int $perPage = 15): ?array
     {
         if (count(array_diff(array_keys($filters), ['tags', 'type'])) > 0) {
@@ -64,12 +72,20 @@ class PackagistClient
         return $this->request($resource, [], PackagistUrlGenerator::API_MODE);
     }
 
-    public function getPackageMetadata(string $vendor, ?string $package = null): ?array
+    public function getPackageMetadata(string $vendor, ?string $package = null, bool $devVersions = false): ?array
     {
         [$vendor, $package] = PackagistVendorFormatter::format($vendor, $package);
-        $resource = 'p2/'.$vendor.'/'.$package.'.json';
+        $resource = 'p2/'.$vendor.'/'.$package.($devVersions ? '~dev' : '').'.json';
 
         return $this->request($resource, [], PackagistUrlGenerator::REPO_MODE);
+    }
+
+    public function getPackageDownloadStats(string $vendor, ?string $package = null): ?array
+    {
+        [$vendor, $package] = PackagistVendorFormatter::format($vendor, $package);
+        $resource = 'packages/'.$vendor.'/'.$package.'/stats.json';
+
+        return $this->request($resource, [], PackagistUrlGenerator::API_MODE);
     }
 
     public function getStatistics(): ?array

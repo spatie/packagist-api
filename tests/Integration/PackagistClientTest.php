@@ -51,6 +51,17 @@ class PackagistClientTest extends TestCase
     }
 
     #[Test]
+    public function it_can_list_popular_packages()
+    {
+        $client = $this->client();
+
+        $result = $client->getPopularPackages();
+
+        $this->assertArrayHasKey('packages', $result);
+        $this->assertIsArray($result['packages']);
+    }
+
+    #[Test]
     public function it_can_search_packages_by_name()
     {
         $client = $this->client();
@@ -126,6 +137,42 @@ class PackagistClientTest extends TestCase
 
         $this->assertArrayHasKey('packages', $result);
         $this->assertArrayHasKey('spatie/packagist-api', $result['packages']);
+
+        $version100Release = array_filter(
+            $result['packages']['spatie/packagist-api'],
+            static fn (array $branch) => $branch['version'] === '1.0.0'
+        );
+
+        $this->assertCount(1, $version100Release);
+    }
+
+    #[Test]
+    public function it_can_get_a_packages_dev_branches_via_the_repository()
+    {
+        $client = $this->client();
+
+        $result = $client->getPackageMetadata('spatie', 'packagist-api', true);
+
+        $this->assertArrayHasKey('packages', $result);
+        $this->assertArrayHasKey('spatie/packagist-api', $result['packages']);
+
+        $mainBranch = array_filter(
+            $result['packages']['spatie/packagist-api'],
+            static fn (array $branch) => $branch['version'] === 'dev-main'
+        );
+
+        $this->assertCount(1, $mainBranch);
+    }
+
+    #[Test]
+    public function it_can_get_a_packages_download_stats()
+    {
+        $client = $this->client();
+
+        $result = $client->getPackageDownloadStats('spatie', 'packagist-api');
+
+        $this->assertArrayHasKey('downloads', $result);
+        $this->assertArrayHasKey('versions', $result);
     }
 
     #[Test]
