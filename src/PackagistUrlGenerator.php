@@ -9,8 +9,7 @@ class PackagistUrlGenerator
     public const API_MODE = 'base_url';
     public const REPO_MODE = 'repo_url';
 
-    /** @var array */
-    private $config;
+    private array $config;
 
     public function __construct(?string $baseUrl = null, ?string $repoUrl = null)
     {

@@ -8,22 +8,15 @@ use Spatie\Packagist\Exceptions\InvalidArgumentException;
 
 class PackagistClient
 {
-    /** @var \GuzzleHttp\Client */
-    protected $client;
-
-    /** @var \Spatie\Packagist\PackagistUrlGenerator */
-    protected $url;
-
-    public function __construct(Client $client, PackagistUrlGenerator $url)
-    {
-        $this->client = $client;
-
-        $this->url = $url;
+    public function __construct(
+        protected Client $client,
+        protected PackagistUrlGenerator $url
+    ) {
     }
 
     public function getPackagesNames(?string $type = null, ?string $vendor = null): ?array
     {
-        return $this->request('packages/list.json', array_filter(compact('type', 'vendor')));
+        return $this->request('packages/list.json', array_filter(['type' => $type, 'vendor' => $vendor]));
     }
 
     public function getPackagesNamesByType(string $type): ?array
@@ -120,9 +113,7 @@ class PackagistClient
             return [];
         }
 
-        $advisories = $response['advisories'];
-
-        return $advisories;
+        return $response['advisories'];
     }
 
     public function getAdvisoriesAffectingVersions(array $packages = [], ?int $updatedSince = null): array
