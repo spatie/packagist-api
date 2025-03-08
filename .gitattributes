@@ -9,3 +9,4 @@
 /tests              export-ignore
 /.php.cs            export-ignore
 /.github            export-ignore
+/rector.php         export-ignore
