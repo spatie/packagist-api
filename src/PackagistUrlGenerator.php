@@ -7,6 +7,7 @@ use Spatie\Packagist\Exceptions\InvalidArgumentException;
 class PackagistUrlGenerator
 {
     public const API_MODE = 'base_url';
+
     public const REPO_MODE = 'repo_url';
 
     private array $config;

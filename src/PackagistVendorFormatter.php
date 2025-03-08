@@ -12,7 +12,7 @@ class PackagistVendorFormatter
             return [$vendor, $package];
         }
 
-        if (!str_contains($vendor, '/')) {
+        if (! str_contains($vendor, '/')) {
             throw new InvalidArgumentException('The vendor argument should contain a `/`.');
         }
 

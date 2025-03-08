@@ -173,6 +173,6 @@ class PackagistClientTest extends TestCase
 
     private function client(): PackagistClient
     {
-        return new PackagistClient(new Client(), new PackagistUrlGenerator());
+        return new PackagistClient(new Client, new PackagistUrlGenerator);
     }
 }

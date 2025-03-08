@@ -12,7 +12,7 @@ class PackagistUrlGeneratorTest extends TestCase
     #[Test]
     public function it_can_generate_a_url_for_an_api_call()
     {
-        $generator = new PackagistUrlGenerator();
+        $generator = new PackagistUrlGenerator;
 
         $result = $generator->make('packages/list.json', PackagistUrlGenerator::API_MODE);
 
@@ -22,7 +22,7 @@ class PackagistUrlGeneratorTest extends TestCase
     #[Test]
     public function it_can_generate_a_url_for_a_repo_call()
     {
-        $generator = new PackagistUrlGenerator();
+        $generator = new PackagistUrlGenerator;
 
         $result = $generator->make('monolog/monolog.json', PackagistUrlGenerator::REPO_MODE);
 
@@ -57,7 +57,7 @@ class PackagistUrlGeneratorTest extends TestCase
     public function it_throws_an_exception_when_an_invalid_mode_is_used()
     {
         $this->expectException(InvalidArgumentException::class);
-        $generator = new PackagistUrlGenerator();
+        $generator = new PackagistUrlGenerator;
 
         $generator->make('', 'invalid-mode');
     }

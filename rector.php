@@ -10,5 +10,4 @@ return RectorConfig::configure()
         __DIR__.'/tests',
     ])
     ->withPreparedSets(codeQuality: true, phpunitCodeQuality: true)
-    ->withPhpSets()
-;
+    ->withPhpSets();

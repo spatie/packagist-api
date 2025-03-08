@@ -11,8 +11,7 @@ class PackagistClient
     public function __construct(
         protected Client $client,
         protected PackagistUrlGenerator $url
-    ) {
-    }
+    ) {}
 
     public function getPackagesNames(?string $type = null, ?string $vendor = null): ?array
     {

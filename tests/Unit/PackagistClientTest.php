@@ -114,7 +114,7 @@ class PackagistClientTest extends TestCase
     public function it_throws_an_exception_when_an_invalid_filter_is_appended_to_the_search_action()
     {
         $this->expectException(InvalidArgumentException::class);
-        $client = new PackagistClient(new Client(), new PackagistUrlGenerator('api.test', 'repo.test'));
+        $client = new PackagistClient(new Client, new PackagistUrlGenerator('api.test', 'repo.test'));
 
         $client->searchPackages('spatie', ['invalid-filter' => 'value']);
     }
@@ -153,7 +153,7 @@ class PackagistClientTest extends TestCase
     public function it_filters_the_advisories_by_package_version()
     {
         $mock = $this->getMockBuilder(Client::class)->disableOriginalConstructor()->getMock();
-        $client = new PackagistClient($mock, new PackagistUrlGenerator());
+        $client = new PackagistClient($mock, new PackagistUrlGenerator);
         $filterAdvisoriesReflection = new ReflectionMethod($client, 'filterAdvisories');
 
         $packages = [
@@ -224,7 +224,7 @@ class PackagistClientTest extends TestCase
     public function it_throws_exception_on_bad_advisory_inputs()
     {
         $mock = $this->getMockBuilder(Client::class)->disableOriginalConstructor()->getMock();
-        $client = new PackagistClient($mock, new PackagistUrlGenerator());
+        $client = new PackagistClient($mock, new PackagistUrlGenerator);
 
         $this->expectException(InvalidArgumentException::class);
 
@@ -246,7 +246,7 @@ class PackagistClientTest extends TestCase
         $mock->expects($this->once())
             ->method('get')
             ->with($url, ['query' => $query])
-            ->willReturnCallback(fn() => new Response(200, [], json_encode(['result' => 'ok'])));
+            ->willReturnCallback(fn () => new Response(200, [], json_encode(['result' => 'ok'])));
 
         return $mock;
     }
