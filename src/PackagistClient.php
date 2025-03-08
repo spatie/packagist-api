@@ -75,7 +75,7 @@ class PackagistClient
     public function getPackageMetadata(string $vendor, ?string $package = null): ?array
     {
         [$vendor, $package] = PackagistVendorFormatter::format($vendor, $package);
-        $resource = 'p/'.$vendor.'/'.$package.'.json';
+        $resource = 'p2/'.$vendor.'/'.$package.'.json';
 
         return $this->request($resource, [], PackagistUrlGenerator::REPO_MODE);
     }

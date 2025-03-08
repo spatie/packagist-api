@@ -46,9 +46,7 @@ class PackagistClientTest extends TestCase
 
         $metadata = $client->getPackageMetadata($firstRepository);
 
-        $latestVersion = end($metadata['packages'][$firstRepository]);
-
-        $this->assertEquals('composer-plugin', $latestVersion['type']);
+        $this->assertEquals('composer-plugin', $metadata['packages'][$firstRepository][0]['type']);
     }
 
     /** @test */
@@ -84,9 +82,7 @@ class PackagistClientTest extends TestCase
         $name = $firstRepository['name'];
         $metadata = $client->getPackageMetadata($name);
 
-        $latestVersion = end($metadata['packages'][$name]);
-
-        $this->assertEquals('symfony-bundle', $latestVersion['type']);
+        $this->assertEquals('symfony-bundle', $metadata['packages'][$name][0]['type']);
     }
 
     /** @test */
@@ -102,9 +98,7 @@ class PackagistClientTest extends TestCase
         $name = $firstRepository['name'];
         $metadata = $client->getPackageMetadata($name);
 
-        $latestVersion = end($metadata['packages'][$name]);
-
-        $this->assertContains('psr-7', $latestVersion['keywords']);
+        $this->assertContains('psr-7', $metadata['packages'][$name][0]['keywords']);
     }
 
     /** @test */
@@ -131,7 +125,6 @@ class PackagistClientTest extends TestCase
 
         $this->assertArrayHasKey('packages', $result);
         $this->assertArrayHasKey('spatie/packagist-api', $result['packages']);
-        $this->assertArrayHasKey('dev-main', $result['packages']['spatie/packagist-api']);
     }
 
     /** @test */

@@ -131,7 +131,7 @@ class PackagistClientTest extends TestCase
     /** @test */
     public function it_can_get_a_package_via_the_repository()
     {
-        $client = $this->packagistClientWithMockedHttp('repo.test/p/spatie/packagist-api.json');
+        $client = $this->packagistClientWithMockedHttp('repo.test/p2/spatie/packagist-api.json');
 
         $result = $client->getPackageMetadata('spatie', 'packagist-api');
 
