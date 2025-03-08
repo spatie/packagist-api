@@ -3,6 +3,7 @@
 namespace Spatie\Packagist\Test\Integration;
 
 use GuzzleHttp\Client;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Spatie\Packagist\PackagistClient;
 use Spatie\Packagist\PackagistUrlGenerator;
@@ -12,7 +13,7 @@ class PackagistClientTest extends TestCase
 {
     use MatchesSnapshots;
 
-    /** @test */
+    #[Test]
     public function it_can_list_package_names()
     {
         $client = $this->client();
@@ -22,7 +23,7 @@ class PackagistClientTest extends TestCase
         $this->assertArrayHasKey('packageNames', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_list_package_names_for_a_vendor()
     {
         $client = $this->client();
@@ -36,7 +37,7 @@ class PackagistClientTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_can_list_package_names_for_a_type()
     {
         $client = $this->client();
@@ -49,7 +50,7 @@ class PackagistClientTest extends TestCase
         $this->assertEquals('composer-plugin', $metadata['packages'][$firstRepository][0]['type']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_search_packages_by_name()
     {
         $client = $this->client();
@@ -60,7 +61,7 @@ class PackagistClientTest extends TestCase
         $this->assertIsArray($result['results']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_set_the_page_size_when_searching()
     {
         $client = $this->client();
@@ -71,7 +72,7 @@ class PackagistClientTest extends TestCase
         $this->assertCount(2, $result['results']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_search_packages_by_type()
     {
         $client = $this->client();
@@ -85,7 +86,7 @@ class PackagistClientTest extends TestCase
         $this->assertEquals('symfony-bundle', $metadata['packages'][$name][0]['type']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_search_packages_by_tags()
     {
         $client = $this->client();
@@ -101,7 +102,7 @@ class PackagistClientTest extends TestCase
         $this->assertContains('psr-7', $metadata['packages'][$name][0]['keywords']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_a_package_via_the_api()
     {
         $client = $this->client();
@@ -116,7 +117,7 @@ class PackagistClientTest extends TestCase
         $this->assertArrayHasKey('daily', $result['package']['downloads']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_a_package_via_the_repository()
     {
         $client = $this->client();
@@ -127,7 +128,7 @@ class PackagistClientTest extends TestCase
         $this->assertArrayHasKey('spatie/packagist-api', $result['packages']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_the_statistics()
     {
         $client = $this->client();
@@ -138,7 +139,7 @@ class PackagistClientTest extends TestCase
         $this->assertArrayHasKey('downloads', $result['totals']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_advisories_by_package_name()
     {
         $client = $this->client();
@@ -150,7 +151,7 @@ class PackagistClientTest extends TestCase
         $this->assertMatchesJsonSnapshot($result);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_filtered_advisories_by_package_name()
     {
         $client = $this->client();
@@ -160,7 +161,7 @@ class PackagistClientTest extends TestCase
         $this->assertMatchesJsonSnapshot($result);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_advisories_by_timestamp()
     {
         $client = $this->client();
@@ -172,8 +173,6 @@ class PackagistClientTest extends TestCase
 
     private function client(): PackagistClient
     {
-        $http = new Client();
-
-        return new PackagistClient($http, new PackagistUrlGenerator());
+        return new PackagistClient(new Client(), new PackagistUrlGenerator());
     }
 }
