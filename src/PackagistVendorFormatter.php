@@ -8,11 +8,11 @@ class PackagistVendorFormatter
 {
     public static function format(string $vendor, ?string $package = null): array
     {
-        if (empty($package) === false) {
+        if (($package === null || $package === '' || $package === '0') === false) {
             return [$vendor, $package];
         }
 
-        if (strpos($vendor, '/') === false) {
+        if (! str_contains($vendor, '/')) {
             throw new InvalidArgumentException('The vendor argument should contain a `/`.');
         }
 

@@ -50,6 +50,20 @@ $packagist->getPackagesNamesByType('composer-plugin');
 $packagist->getPackagesNamesByVendor('spatie');
 ```
 
+### List popular packages
+```php
+// List first page of popular packages
+$packagist->getPopularPackages();
+```
+
+#### Pagination
+Listing popular packages returns a paginated result. You can change the pagination settings by adding more parameters.
+
+```php
+// Get the third page, 10 items per page.
+$packagist->getPopularPackages(3, 10);
+```
+
 ### Searching for packages
 ```php
 // Search packages by name.
@@ -79,9 +93,18 @@ $packagist->searchPackagesByName('packagist', 3, 10);
 $packagist->getPackageMetadata('spatie/packagist-api');
 $packagist->getPackageMetadata('spatie', 'packagist-api');
 
+// Using the Composer metadata for dev branches.
+$packagist->getPackageMetadata('spatie', 'packagist-api', true);
+
 // Using the API. (slower, cached for 12 hours by Packagist.
 $packagist->getPackage('spatie/packagist-api');
 $packagist->getPackage('spatie', 'packagist-api');
+```
+
+### Get package download stats
+```php
+$packagist->getPackageDownloadStats('spatie/packagist-api');
+$packagist->getPackageDownloadStats('spatie', 'packagist-api');
 ```
 
 ### Get Statistics

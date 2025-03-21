@@ -1,6 +1,136 @@
 {
     "silverstripe\/admin": [
         {
+            "advisoryId": "PKSA-jptt-pr1d-42jb",
+            "packageName": "silverstripe\/admin",
+            "remoteId": "GHSA-779c-7w4p-2c4g",
+            "title": "Silverstripe admin XSS Vulnerability via WYSIWYG editor",
+            "link": "https:\/\/github.com\/advisories\/GHSA-779c-7w4p-2c4g",
+            "cve": null,
+            "affectedVersions": ">=1.1.0,<1.1.1|>=1.0.3,<1.0.4",
+            "source": "GitHub",
+            "reportedAt": "2024-05-22 18:18:18",
+            "composerRepository": "https:\/\/packagist.org",
+            "severity": "low",
+            "sources": [
+                {
+                    "name": "GitHub",
+                    "remoteId": "GHSA-779c-7w4p-2c4g"
+                }
+            ]
+        },
+        {
+            "advisoryId": "PKSA-ms6r-5yrz-36rx",
+            "packageName": "silverstripe\/admin",
+            "remoteId": "silverstripe\/admin\/CVE-2023-49783.yaml",
+            "title": "CVE-2023-49783 No permission checks for editing or deleting records with CSV import form",
+            "link": "https:\/\/www.silverstripe.org\/download\/security-releases\/CVE-2023-49783",
+            "cve": "CVE-2023-49783",
+            "affectedVersions": ">=1.0.0,<1.13.19|>=2.0.0,<2.1.8",
+            "source": "FriendsOfPHP\/security-advisories",
+            "reportedAt": "2024-01-23 03:15:01",
+            "composerRepository": "https:\/\/packagist.org",
+            "severity": "medium",
+            "sources": [
+                {
+                    "name": "GitHub",
+                    "remoteId": "GHSA-j3m6-gvm8-mhvw"
+                },
+                {
+                    "name": "FriendsOfPHP\/security-advisories",
+                    "remoteId": "silverstripe\/admin\/CVE-2023-49783.yaml"
+                }
+            ]
+        },
+        {
+            "advisoryId": "PKSA-dfr9-j5tz-nqsk",
+            "packageName": "silverstripe\/admin",
+            "remoteId": "silverstripe\/admin\/SS-2023-002.yaml",
+            "title": "SS-2023-002 - Cross-site scripting (XSS) vulnerabilities inherited form TinyMCE",
+            "link": "https:\/\/www.silverstripe.org\/download\/security-releases\/SS-2023-002",
+            "cve": null,
+            "affectedVersions": ">=1.0.0,<1.13.6",
+            "source": "FriendsOfPHP\/security-advisories",
+            "reportedAt": "2023-07-30 23:41:51",
+            "composerRepository": "https:\/\/packagist.org",
+            "severity": "medium",
+            "sources": [
+                {
+                    "name": "GitHub",
+                    "remoteId": "GHSA-jxcx-3h54-qqxx"
+                },
+                {
+                    "name": "FriendsOfPHP\/security-advisories",
+                    "remoteId": "silverstripe\/admin\/SS-2023-002.yaml"
+                }
+            ]
+        },
+        {
+            "advisoryId": "PKSA-y8bg-mk3d-wx3s",
+            "packageName": "silverstripe\/admin",
+            "remoteId": "silverstripe\/admin\/SS-2023-001.yaml",
+            "title": "SS-2023-001 - XSS vulnerability in underlying TinyMCE library",
+            "link": "https:\/\/www.silverstripe.org\/download\/security-releases\/SS-2023-001",
+            "cve": null,
+            "affectedVersions": ">=1.0.0,<1.12.7",
+            "source": "FriendsOfPHP\/security-advisories",
+            "reportedAt": "2023-04-25 23:32:38",
+            "composerRepository": "https:\/\/packagist.org",
+            "severity": "medium",
+            "sources": [
+                {
+                    "name": "GitHub",
+                    "remoteId": "GHSA-4q66-g4mm-8rg5"
+                },
+                {
+                    "name": "FriendsOfPHP\/security-advisories",
+                    "remoteId": "silverstripe\/admin\/SS-2023-001.yaml"
+                }
+            ]
+        },
+        {
+            "advisoryId": "PKSA-hdh8-938y-bs3h",
+            "packageName": "silverstripe\/admin",
+            "remoteId": "GHSA-rfvw-5848-gxc5",
+            "title": "Silverstripe Flash Clipboard Reflected XSS",
+            "link": "https:\/\/github.com\/advisories\/GHSA-rfvw-5848-gxc5",
+            "cve": "CVE-2019-12205",
+            "affectedVersions": "<1.3.5",
+            "source": "GitHub",
+            "reportedAt": "2022-05-24 16:56:47",
+            "composerRepository": "https:\/\/packagist.org",
+            "severity": "medium",
+            "sources": [
+                {
+                    "name": "GitHub",
+                    "remoteId": "GHSA-rfvw-5848-gxc5"
+                }
+            ]
+        },
+        {
+            "advisoryId": "PKSA-cft2-kzgn-t4w3",
+            "packageName": "silverstripe\/admin",
+            "remoteId": "silverstripe\/admin\/CVE-2022-38146.yaml",
+            "title": "CVE-2022-38146 - URL XSS vulnerability due to outdated jquery in CMS",
+            "link": "https:\/\/www.silverstripe.org\/download\/security-releases\/cve-2022-38146",
+            "cve": "CVE-2022-38146",
+            "affectedVersions": ">=1.0.0,<1.11.3",
+            "source": "FriendsOfPHP\/security-advisories",
+            "reportedAt": "2021-11-21 00:00:00",
+            "composerRepository": "https:\/\/packagist.org",
+            "severity": "medium",
+            "sources": [
+                {
+                    "name": "GitHub",
+                    "remoteId": "GHSA-44xv-v98g-v79f"
+                },
+                {
+                    "name": "FriendsOfPHP\/security-advisories",
+                    "remoteId": "silverstripe\/admin\/CVE-2022-38146.yaml"
+                }
+            ]
+        },
+        {
             "advisoryId": "PKSA-zmvy-dmwz-zrvp",
             "packageName": "silverstripe\/admin",
             "remoteId": "silverstripe\/admin\/CVE-2021-36150.yaml",
@@ -11,6 +141,7 @@
             "source": "FriendsOfPHP\/security-advisories",
             "reportedAt": "2021-10-05 05:18:20",
             "composerRepository": "https:\/\/packagist.org",
+            "severity": "medium",
             "sources": [
                 {
                     "name": "GitHub",
@@ -33,7 +164,12 @@
             "source": "FriendsOfPHP\/security-advisories",
             "reportedAt": "2018-02-01 17:33:07",
             "composerRepository": "https:\/\/packagist.org",
+            "severity": "medium",
             "sources": [
+                {
+                    "name": "GitHub",
+                    "remoteId": "GHSA-wqm8-jx8r-8rcq"
+                },
                 {
                     "name": "FriendsOfPHP\/security-advisories",
                     "remoteId": "silverstripe\/admin\/SS-2018-004-1.yaml"

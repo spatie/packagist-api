@@ -4,6 +4,7 @@ namespace Spatie\Packagist\Test\Unit;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
@@ -13,7 +14,7 @@ use Spatie\Packagist\PackagistUrlGenerator;
 
 class PackagistClientTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_list_package_names()
     {
         $client = $this->packagistClientWithMockedHttp('api.test/packages/list.json');
@@ -23,7 +24,7 @@ class PackagistClientTest extends TestCase
         $this->assertEquals($result, ['result' => 'ok']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_list_package_names_by_type_and_vendor()
     {
         $client = $this->packagistClientWithMockedHttp('api.test/packages/list.json', ['type' => 'composer-plugin', 'vendor' => 'spatie']);
@@ -33,7 +34,7 @@ class PackagistClientTest extends TestCase
         $this->assertEquals($result, ['result' => 'ok']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_list_package_names_for_a_vendor()
     {
         $client = $this->packagistClientWithMockedHttp('api.test/packages/list.json', ['vendor' => 'spatie']);
@@ -43,7 +44,7 @@ class PackagistClientTest extends TestCase
         $this->assertEquals($result, ['result' => 'ok']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_list_package_names_for_a_type()
     {
         $client = $this->packagistClientWithMockedHttp('api.test/packages/list.json', ['type' => 'composer-plugin']);
@@ -53,7 +54,7 @@ class PackagistClientTest extends TestCase
         $this->assertEquals($result, ['result' => 'ok']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_search_packages()
     {
         $client = $this->packagistClientWithMockedHttp(
@@ -66,7 +67,7 @@ class PackagistClientTest extends TestCase
         $this->assertEquals($result, ['result' => 'ok']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_set_the_pagination_settings_while_searching()
     {
         $client = $this->packagistClientWithMockedHttp(
@@ -79,7 +80,7 @@ class PackagistClientTest extends TestCase
         $this->assertEquals($result, ['result' => 'ok']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_search_packages_by_name()
     {
         $client = $this->packagistClientWithMockedHttp('api.test/search.json', ['q' => 'keyword', 'page' => 1, 'per_page' => 15]);
@@ -89,7 +90,7 @@ class PackagistClientTest extends TestCase
         $this->assertEquals($result, ['result' => 'ok']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_search_packages_by_type()
     {
         $client = $this->packagistClientWithMockedHttp('api.test/search.json', ['q' => 'spatie', 'type' => 'composer-plugin', 'page' => 1, 'per_page' => 15]);
@@ -99,7 +100,7 @@ class PackagistClientTest extends TestCase
         $this->assertEquals($result, ['result' => 'ok']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_search_packages_by_tags()
     {
         $client = $this->packagistClientWithMockedHttp('api.test/search.json', ['q' => 'spatie', 'tags' => 'psr-7', 'page' => 1, 'per_page' => 15]);
@@ -109,16 +110,16 @@ class PackagistClientTest extends TestCase
         $this->assertEquals($result, ['result' => 'ok']);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_an_exception_when_an_invalid_filter_is_appended_to_the_search_action()
     {
         $this->expectException(InvalidArgumentException::class);
-        $client = new PackagistClient(new Client(), new PackagistUrlGenerator('api.test', 'repo.test'));
+        $client = new PackagistClient(new Client, new PackagistUrlGenerator('api.test', 'repo.test'));
 
         $client->searchPackages('spatie', ['invalid-filter' => 'value']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_a_package_via_the_api()
     {
         $client = $this->packagistClientWithMockedHttp('api.test/packages/spatie/packagist-api.json');
@@ -128,17 +129,17 @@ class PackagistClientTest extends TestCase
         $this->assertEquals($result, ['result' => 'ok']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_a_package_via_the_repository()
     {
-        $client = $this->packagistClientWithMockedHttp('repo.test/p/spatie/packagist-api.json');
+        $client = $this->packagistClientWithMockedHttp('repo.test/p2/spatie/packagist-api.json');
 
         $result = $client->getPackageMetadata('spatie', 'packagist-api');
 
         $this->assertEquals($result, ['result' => 'ok']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_the_statistics()
     {
         $client = $this->packagistClientWithMockedHttp('api.test/statistics.json');
@@ -148,13 +149,12 @@ class PackagistClientTest extends TestCase
         $this->assertEquals($result, ['result' => 'ok']);
     }
 
-    /** @test */
+    #[Test]
     public function it_filters_the_advisories_by_package_version()
     {
         $mock = $this->getMockBuilder(Client::class)->disableOriginalConstructor()->getMock();
-        $client = new PackagistClient($mock, new PackagistUrlGenerator());
+        $client = new PackagistClient($mock, new PackagistUrlGenerator);
         $filterAdvisoriesReflection = new ReflectionMethod($client, 'filterAdvisories');
-        $filterAdvisoriesReflection->setAccessible(true);
 
         $packages = [
             'missing/package' => '1.0.0',
@@ -220,37 +220,23 @@ class PackagistClientTest extends TestCase
         $this->assertEquals($expected, $filtered);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_exception_on_bad_advisory_inputs()
     {
         $mock = $this->getMockBuilder(Client::class)->disableOriginalConstructor()->getMock();
-        $client = new PackagistClient($mock, new PackagistUrlGenerator());
+        $client = new PackagistClient($mock, new PackagistUrlGenerator);
 
         $this->expectException(InvalidArgumentException::class);
 
         $client->getAdvisories([], null);
     }
 
-    /**
-     * @param string $url
-     * @param array  $query
-     *
-     * @return PackagistClient
-     */
     private function packagistClientWithMockedHttp(string $url, array $query = []): PackagistClient
     {
-        $mock = $this->getMock($url, $query);
-
-        return new PackagistClient($mock, new PackagistUrlGenerator('api.test', 'repo.test'));
+        return new PackagistClient($this->getMock($url, $query), new PackagistUrlGenerator('api.test', 'repo.test'));
     }
 
-    /**
-     * @param string $url
-     * @param array  $query
-     *
-     * @return Client|MockObject
-     */
-    private function getMock(string $url, array $query = [])
+    private function getMock(string $url, array $query = []): MockObject&Client
     {
         $mock = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
@@ -259,10 +245,8 @@ class PackagistClientTest extends TestCase
 
         $mock->expects($this->once())
             ->method('get')
-            ->with($url, compact('query'))
-            ->willReturnCallback(function () {
-                return new Response(200, [], json_encode(['result' => 'ok']));
-            });
+            ->with($url, ['query' => $query])
+            ->willReturnCallback(fn () => new Response(200, [], json_encode(['result' => 'ok'])));
 
         return $mock;
     }

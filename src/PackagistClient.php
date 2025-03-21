@@ -8,22 +8,14 @@ use Spatie\Packagist\Exceptions\InvalidArgumentException;
 
 class PackagistClient
 {
-    /** @var \GuzzleHttp\Client */
-    protected $client;
-
-    /** @var \Spatie\Packagist\PackagistUrlGenerator */
-    protected $url;
-
-    public function __construct(Client $client, PackagistUrlGenerator $url)
-    {
-        $this->client = $client;
-
-        $this->url = $url;
-    }
+    public function __construct(
+        protected Client $client,
+        protected PackagistUrlGenerator $url
+    ) {}
 
     public function getPackagesNames(?string $type = null, ?string $vendor = null): ?array
     {
-        return $this->request('packages/list.json', array_filter(compact('type', 'vendor')));
+        return $this->request('packages/list.json', array_filter(['type' => $type, 'vendor' => $vendor]));
     }
 
     public function getPackagesNamesByType(string $type): ?array
@@ -34,6 +26,14 @@ class PackagistClient
     public function getPackagesNamesByVendor(string $vendor): ?array
     {
         return $this->getPackagesNames(null, $vendor);
+    }
+
+    public function getPopularPackages(?int $page = 1, int $perPage = 100): ?array
+    {
+        $filters['page'] = $page;
+        $filters['per_page'] = $perPage;
+
+        return $this->request('explore/popular.json', $filters);
     }
 
     public function searchPackages($name = null, array $filters = [], ?int $page = 1, int $perPage = 15): ?array
@@ -72,12 +72,20 @@ class PackagistClient
         return $this->request($resource, [], PackagistUrlGenerator::API_MODE);
     }
 
-    public function getPackageMetadata(string $vendor, ?string $package = null): ?array
+    public function getPackageMetadata(string $vendor, ?string $package = null, bool $devVersions = false): ?array
     {
         [$vendor, $package] = PackagistVendorFormatter::format($vendor, $package);
-        $resource = 'p/'.$vendor.'/'.$package.'.json';
+        $resource = 'p2/'.$vendor.'/'.$package.($devVersions ? '~dev' : '').'.json';
 
         return $this->request($resource, [], PackagistUrlGenerator::REPO_MODE);
+    }
+
+    public function getPackageDownloadStats(string $vendor, ?string $package = null): ?array
+    {
+        [$vendor, $package] = PackagistVendorFormatter::format($vendor, $package);
+        $resource = 'packages/'.$vendor.'/'.$package.'/stats.json';
+
+        return $this->request($resource, [], PackagistUrlGenerator::API_MODE);
     }
 
     public function getStatistics(): ?array
@@ -120,9 +128,7 @@ class PackagistClient
             return [];
         }
 
-        $advisories = $response['advisories'];
-
-        return $advisories;
+        return $response['advisories'];
     }
 
     public function getAdvisoriesAffectingVersions(array $packages = [], ?int $updatedSince = null): array
