@@ -2,6 +2,18 @@
 
 All notable changes to `packagist-api` will be documented in this file
 
+## 2.1.1 - 2025-03-21
+
+### What's Changed
+
+* [B/C Break] Use the v2 metadata for package metadata, misc. dependency updates, new API endpoints by @mbabker in https://github.com/spatie/packagist-api/pull/22
+
+### New Contributors
+
+* @mbabker made their first contribution in https://github.com/spatie/packagist-api/pull/22
+
+**Full Changelog**: https://github.com/spatie/packagist-api/compare/2.1.0...2.1.1
+
 ## 2.1.0 - 2022-08-01
 
 ### What's Changed
