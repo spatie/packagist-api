@@ -30,7 +30,7 @@
     "require": {
         "php": "^8.2",
         "ext-json": "*",
-        "guzzlehttp/guzzle": "^7.0",
+        "guzzlehttp/guzzle": "^7.0 || ^8.0",
         "composer/semver": "^3.0"
     },
     "require-dev": {
