@@ -95,40 +95,52 @@ class PackagistClient
 
     public function getAdvisories(array $packages = [], ?int $updatedSince = null): array
     {
-        if (count($packages) === 0) {
+        if (count($packages) === 0 && $updatedSince === null) {
             throw new InvalidArgumentException(
-                'At least one package must be passed in.'
+                'At least one package or an $updatedSince timestamp must be passed in.'
             );
         }
 
-        $query = [];
+        $packageNames = $this->normalizePackageNames($packages);
 
+        // Packagist's security-advisories endpoint accepts either a list of
+        // packages or an updatedSince timestamp, but not both at the same time.
+        // When both are given, query by timestamp and filter the requested
+        // packages locally so the documented behaviour keeps working.
         if ($updatedSince !== null) {
-            $query['updatedSince'] = $updatedSince;
+            $advisories = $this->requestAdvisories([
+                'query' => ['updatedSince' => $updatedSince],
+            ]);
+
+            if (count($packageNames) === 0) {
+                return $advisories;
+            }
+
+            return array_intersect_key($advisories, array_flip($packageNames));
         }
 
-        $options = [
-            'query' => array_filter($query),
-        ];
+        return $this->requestAdvisories([
+            'headers' => ['Content-type' => 'application/x-www-form-urlencoded'],
+            'body' => http_build_query(['packages' => $packageNames]),
+        ]);
+    }
 
-        $content = ['packages' => []];
+    protected function normalizePackageNames(array $packages): array
+    {
+        $names = [];
 
         foreach ($packages as $package => $version) {
-            if (is_numeric($package)) {
-                $package = $version;
-            }
-            $content['packages'][] = $package;
+            $names[] = is_numeric($package) ? $version : $package;
         }
-        $options['headers']['Content-type'] = 'application/x-www-form-urlencoded';
-        $options['body'] = http_build_query($content);
 
+        return $names;
+    }
+
+    protected function requestAdvisories(array $options): array
+    {
         $response = $this->postRequest('api/security-advisories/', $options);
 
-        if ($response === null) {
-            return [];
-        }
-
-        return $response['advisories'];
+        return $response['advisories'] ?? [];
     }
 
     public function getAdvisoriesAffectingVersions(array $packages = [], ?int $updatedSince = null): array
